@@ -16,5 +16,11 @@ namespace VsShopper_Infra.Repository
             var verificastatus = _vsShopperContext.Set<ComprasEntity>().Any(x => x.cod_status == id);
             return !verificastatus;
         }
+        public StatusEntity GetStatusByName(string name)
+        {
+            return _vsShopperContext.Set<StatusEntity>().FirstOrDefault(x => x.nome.Contains(name));
+        }
+
+
     }
 }

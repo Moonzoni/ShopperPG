@@ -51,9 +51,9 @@ namespace vsSHOPPER1.Controllers
         {
             if (!Validacategoria(categoria))
             {
-                CategoriaEntity categoriaEntity = null;
-                categoriaEntity.nome = categoria.nome;
-                return new OkObjectResult(_categoriaRepositor.Add(categoriaEntity));
+                
+                categoria.nome = categoria.nome.Trim(' ');
+                return new OkObjectResult(_categoriaRepositor.Add(categoria));
             }
             else
                 return new BadRequestObjectResult("Erro");

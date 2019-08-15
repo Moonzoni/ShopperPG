@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,25 +43,27 @@ namespace vsSHOPPER1.Controllers
         }
 
         [HttpGet("Busca_Compras_status{idstatus}")]
-        public IEnumerable<ComprasDTO> Busca_status(int idstatus)
+        public ActionResult<IEnumerable<ComprasDTO>> Busca_status(int idstatus)
         {
             var existe = _statusRepository.Get(idstatus);
             if (existe != null)
             {
-                return Find(_comprasRepository.FindBystatus(idstatus));
+                return new OkObjectResult(Find(_comprasRepository.FindBystatus(idstatus)));
             }
-            return null;
+
+            return new NotFoundResult();
         }
 
         [HttpGet("Busca_Compras_categoria{cod_categoria}")]
-        public IEnumerable<ComprasDTO> Busca_categoria(int cod_categoria)
+        public ActionResult<object> Busca_categoria(int cod_categoria)
         {
             var existe = _categoriaRepository.Get(cod_categoria);
             if (existe != null)
             {
-                return Find(_comprasRepository.FindByCategoria(cod_categoria));
+                return new OkObjectResult(Find(_comprasRepository.FindByCategoria(cod_categoria)));
             }
-            return null;
+            
+            return new NotFoundResult();
         }
 
         [HttpGet("Busca_Compras_titulo{titulo}")]
@@ -78,18 +81,18 @@ namespace vsSHOPPER1.Controllers
         [HttpGet("Busca_Compras_Aprovadas")]
         public IEnumerable<ComprasDTO> Busca_status_Aprovado()
         {
-            var existe = _statusRepository.Get(2);
+            var existe = _statusRepository.GetStatusByName("Aprovado");
             if (existe != null)
-                return Find(_comprasRepository.FindBystatus(2));
+                return Find(_comprasRepository.FindBystatus(existe.cod_status));
 
             return null;
         }
-        [HttpGet("Busca_status_Finazilados")]
+        [HttpGet("Busca_status_Finalizados")]
         public IEnumerable<ComprasDTO> Busca_status_Finazilados()
         {
-            var existe = _statusRepository.Get(10);
+            var existe = _statusRepository.GetStatusByName("Finalizado");
             if (existe != null)
-                return Find(_comprasRepository.FindBystatus(10));
+                return Find(_comprasRepository.FindBystatus(existe.cod_status));
             return null;
         }
 
@@ -131,45 +134,44 @@ namespace vsSHOPPER1.Controllers
 
         // POST: api/Compras
         [HttpPost("Cadastro_Compras")]
-        public ActionResult<ComprasDTO> Post([FromBody] ComprasDTO comprasDTO)
+        public ActionResult<ComprasDTO> Post([FromBody] CompraModel comprasModel)
         {
-            comprasDTO.titulo = comprasDTO.titulo.Trim(' ');
-            comprasDTO.descricao = comprasDTO.descricao.Trim(' ');
-            if (!ValidaCompraCadastro(comprasDTO))
+            comprasModel.titulo = comprasModel.titulo.Trim(' ');
+            comprasModel.descricao = comprasModel.descricao.Trim(' ');
+            if (!ValidaCompraCadastro(comprasModel))
             {
                 var Compra = new ComprasEntity()
                 {
-                    cod_categoria = comprasDTO.categoria.cod_categoria,
+                    cod_categoria = comprasModel.cod_categoria,
                     cod_status = 1,
-                    cod_usuario = comprasDTO.usuario.cod_usuario,
-                    titulo = comprasDTO.titulo,
-                    descricao = comprasDTO.descricao,
+                    cod_usuario = comprasModel.cod_usuario,
+                    titulo = comprasModel.titulo,
+                    descricao = comprasModel.descricao,
                     data_abertura = DateTime.Now
                     
                 };
                 var NewCompra = _comprasRepository.Add(Compra);
-                comprasDTO.cod_compra = NewCompra.cod_compra;
-                for (int i = 0; i < comprasDTO.orcamentodtos.Count; i++)
+                comprasModel.Cod_compra = NewCompra.cod_compra;
+                for (int i = 0; i < comprasModel.orcamentodtos.Count; i++)
                 {
-                    comprasDTO.orcamentodtos.ToArray()[i].cod_compra = NewCompra.cod_compra;
-                    var orcamento = comprasDTO.orcamentodtos[i];
+                    comprasModel.orcamentodtos.ToArray()[i].cod_compra = NewCompra.cod_compra;
+                    var orcamento = comprasModel.orcamentodtos[i];
                     var NewOrcamento = _orcamentoRepository.Add(orcamento);
-                    comprasDTO.orcamentodtos[i].cod_orcamento = NewOrcamento.cod_orcamento;
+                    comprasModel.orcamentodtos[i].cod_orcamento = NewOrcamento.cod_orcamento;
                 }
-                return new OkObjectResult(comprasDTO);
+                return new OkObjectResult(comprasModel);
 
             }
             else
-                return new BadRequestObjectResult("Erro no Cadastro");
+                return new BadRequestObjectResult("Erro no cadastro, campos inválidos.");
             
         }
 
-        private bool ValidaCompraCadastro(ComprasDTO compra)
+        private bool ValidaCompraCadastro(CompraModel compra)
         {
-            int cont = 0;
-            //var statusExistente = _statusRepository.Get(compra.status.cod_status);
-            var categoriaExistente = _categoriaRepository.GetNoTracking(compra.categoria.cod_categoria);
-            var usuarioExistente = _usuarioRepository.GetNoTracking(compra.usuario.cod_usuario);
+            int cont = 0;            
+            var categoriaExistente = _categoriaRepository.GetNoTracking(compra.cod_categoria);
+            var usuarioExistente = _usuarioRepository.GetNoTracking(compra.cod_usuario);
             if (_baseValida.ValidaCampoNull(compra.descricao, compra.titulo)|| categoriaExistente == null|| usuarioExistente == null)
             {
                 cont++;

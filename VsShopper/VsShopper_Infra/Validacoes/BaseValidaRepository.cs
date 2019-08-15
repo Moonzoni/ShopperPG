@@ -11,10 +11,11 @@ namespace VsShopper_Infra.Validacoes
 
         public bool ValidaCampoNull(params string[] param)
         {
-            string teste = "";
+            
             foreach (var item in param)
             {
-                if (item == teste)
+                
+                if (string.IsNullOrWhiteSpace(item))
                 {
                     return true; 
                 }
