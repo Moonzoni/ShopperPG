@@ -267,25 +267,6 @@ namespace vsSHOPPER1.Controllers
             CompraEntitity.cod_status = cod_status;
             return CompraEntitity;
         }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("Delete_compra/{id}")]
-        public ActionResult Delete(int id)
-        {
-            var existe = _comprasRepository.Get(id);
-            if (existe != null)
-            {
-                var podeExcluir = _comprasRepository.PodeExcluir(id);
-                if (podeExcluir)
-                {
-                    _comprasRepository.Delete(id);
-                }
-                else
-                    return new BadRequestObjectResult("Nao Pode Ser Exlcuido");
-            }
-            else
-                return new BadRequestObjectResult("Nao Existe Esse codigo de compra");
-            return new OkResult();
-        }
+       
     }
 }
