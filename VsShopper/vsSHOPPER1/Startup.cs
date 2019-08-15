@@ -49,7 +49,7 @@ namespace vsSHOPPER1
             services.AddScoped(typeof(ICategoriaRepository), typeof(CategoriaRepository));
             services.AddScoped(typeof(IPerfilRepository), typeof(PerfilRepository));
             services.AddScoped(typeof(IStatusRepository), typeof(StatusRepository));
-            services.AddScoped(typeof(IusuarioRepository), typeof(UsuarioRepository));
+            services.AddScoped(typeof(IUsuarioRepository), typeof(UsuarioRepository));
             services.AddScoped(typeof(IComprasRepository), typeof(ComprasRepository));
             services.AddScoped(typeof(IOrcamentoRepository), typeof(OrcamentoRepository));
             services.AddScoped(typeof(IBaseValida), typeof(BaseValidaRepository));

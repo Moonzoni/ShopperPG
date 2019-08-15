@@ -25,7 +25,9 @@ namespace VsShopper_Infra.Validacoes
         {
             Regex validaEmail = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
             if (!validaEmail.IsMatch(email))
+            {
                 return true;
+            }
             return false;
         }
         public bool ValidaLink(string link)
@@ -41,7 +43,9 @@ namespace VsShopper_Infra.Validacoes
         public bool ValidaNome(string nome)
         {
             if (!Regex.IsMatch(nome, @"^[ a-zA-Z záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]*$"))
+            {
                 return true;
+            }
             return false;
         }
     }
