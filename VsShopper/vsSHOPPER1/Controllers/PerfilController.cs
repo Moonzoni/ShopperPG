@@ -57,7 +57,7 @@ namespace vsSHOPPER1.Controllers
             }
             catch (Exception)
             {
-                throw;
+                throw ;
             }
         }
         
