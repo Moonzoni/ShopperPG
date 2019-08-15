@@ -10,10 +10,10 @@ namespace VsShopper_Infra.Entity
     public class OrcamentoEntity
     {
         [Key]
-        public int COD_ORCAMENTO { get; set; }
-        public string NOME { get; set; }
-        public string LINK { get; set; }
-        public string OBSERVACAO{ get; set; }
-        public int COD_COMPRAS { get; set; }
+        public int cod_orcamento { get; set; }
+        public string nome { get; set; }
+        public string link { get; set; }
+        public string observacao{ get; set; }
+        public int cod_compra { get; set; }
     }
 }

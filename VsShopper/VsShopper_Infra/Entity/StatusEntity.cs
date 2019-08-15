@@ -11,7 +11,7 @@ namespace VsShopper_Infra.Entity
     public class StatusEntity
     {
         [Key]
-        public int COD_STATUS { get; set; }
-        public string NOME { get; set; }
+        public int cod_status { get; set; }
+        public string nome { get; set; }
     }
 }

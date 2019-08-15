@@ -12,9 +12,9 @@ namespace VsShopper_Infra.Entity
     public class UsuarioEntity
     {
         [Key]
-        public int COD_USUARIO { get; set; }
-        public string NOME { get; set; }
-        public string EMAIL { get; set; }
-        public int COD_PERFIL { get; set; }
+        public int cod_usuario { get; set; }
+        public string nome { get; set; }
+        public string email { get; set; }
+        public int cod_perfil { get; set; }
     }
 }
