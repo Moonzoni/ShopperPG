@@ -35,14 +35,14 @@ namespace vsSHOPPER1
             services.AddSwaggerGen(options => {
                 options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info()
                 {
-                    Description = "VsShopper1",
-                    Title = "VsShopper",
-                    Version = "1.0.1"
+                    Description = "É os guri dominando a vsSHOPPER",
+                    Title = "ShopperPG",
+                    Version = "2.0.1"
                 });
             });
 
             services.AddDbContext<VsShopperContext>(opt => {
-                opt.UseSqlServer(Configuration.GetConnectionString("VsShopper"));
+                opt.UseSqlServer(Configuration.GetConnectionString("ShopperPG"));
             });
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
