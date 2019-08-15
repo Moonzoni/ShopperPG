@@ -12,65 +12,65 @@ namespace vsSHOPPER1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriaController : ControllerBase
+    public class categoriaController : ControllerBase
     {
         private readonly ICategoriaRepository _categoriaRepositor;
         private readonly IBaseValida _baseValida;
 
 
-        public CategoriaController(ICategoriaRepository categoriaRepositor, IBaseValida baseValida)
+        public categoriaController(ICategoriaRepository categoriaRepositor, IBaseValida baseValida)
         {
             _categoriaRepositor = categoriaRepositor;
             _baseValida = baseValida;
 
         }
 
-        // GET: api/Categoria
-        [HttpGet("/Categorias")]
+        // GET: api/categoria
+        [HttpGet("/categorias")]
         public IEnumerable<CategoriaEntity> GetAll()
         {
             return _categoriaRepositor.GetAll();
         }
 
-        // GET: api/Categoria/5
-        [HttpGet("/BuscaCategoria/{id}")]
+        // GET: api/categoria/5
+        [HttpGet("/Buscacategoria/{id}")]
         public ActionResult<CategoriaEntity> Get(int id)
         {
-            var CategoriaExistente = _categoriaRepositor.Get(id);
-            if (CategoriaExistente != null)
+            var categoriaExistente = _categoriaRepositor.Get(id);
+            if (categoriaExistente != null)
             {
-                return new OkObjectResult(CategoriaExistente);
+                return new OkObjectResult(categoriaExistente);
             }
             else
                 return new BadRequestObjectResult("Nao Existe esse ID");
         }
 
-        // POST: api/Categoria
-        [HttpPost("/Cadastro_Categoria/")]
+        // POST: api/categoria
+        [HttpPost("/Cadastro_categoria/")]
         public ActionResult<CategoriaEntity> Post([FromBody] CategoriaEntity categoria)
         {
-            if (!ValidaCategoria(categoria))
+            if (!Validacategoria(categoria))
             {
                 CategoriaEntity categoriaEntity = null;
-                categoriaEntity.NOME = categoria.NOME;
+                categoriaEntity.nome = categoria.nome;
                 return new OkObjectResult(_categoriaRepositor.Add(categoriaEntity));
             }
             else
                 return new BadRequestObjectResult("Erro");
         }
 
-        private bool ValidaCategoria(CategoriaEntity categoria)
+        private bool Validacategoria(CategoriaEntity categoria)
         {
             int cont = 0;
-            if (_baseValida.ValidaCampoNull(categoria.NOME)
-                || _baseValida.ValidaNome(categoria.NOME))
+            if (_baseValida.ValidaCampoNull(categoria.nome)
+                || _baseValida.ValidaNome(categoria.nome))
             {
                 cont++;
             }
 
-            if (categoria.COD_CATEGORIA != 0)
+            if (categoria.cod_categoria != 0)
             {
-                var existe = _categoriaRepositor.GetNoTracking(categoria.COD_CATEGORIA);
+                var existe = _categoriaRepositor.GetNoTracking(categoria.cod_categoria);
                 if (existe == null)
                 {
                     cont++;
@@ -84,20 +84,20 @@ namespace vsSHOPPER1.Controllers
             return false;
         }
 
-        // PUT: api/Categoria/5
-        [HttpPut("/Update_Categoria/")]
+        // PUT: api/categoria/5
+        [HttpPut("/Update_categoria/")]
         public ActionResult<CategoriaEntity> Put([FromBody] CategoriaEntity categoria)
         {
             try
             {
-                if (!ValidaCategoria(categoria))
+                if (!Validacategoria(categoria))
                 {
                     var categoriaEntity = new CategoriaEntity()
                     {
-                        COD_CATEGORIA = categoria.COD_CATEGORIA,
-                        NOME = categoria.NOME
+                        cod_categoria = categoria.cod_categoria,
+                        nome = categoria.nome
                     };
-                    var UpdateCategoria = _categoriaRepositor.Update(categoriaEntity);
+                    var Updatecategoria = _categoriaRepositor.Update(categoriaEntity);
                     return new OkObjectResult(categoria);
                 
             }
@@ -112,7 +112,7 @@ namespace vsSHOPPER1.Controllers
 }
 
     // DELETE: api/ApiWithActions/5
-    [HttpDelete("/Delete_Categoria/{id}")]
+    [HttpDelete("/Delete_categoria/{id}")]
     public void Delete(int id)
     {
 

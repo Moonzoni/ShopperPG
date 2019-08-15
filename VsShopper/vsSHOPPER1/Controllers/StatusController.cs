@@ -11,27 +11,27 @@ namespace vsSHOPPER1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatusController : ControllerBase
+    public class statusController : ControllerBase
     {
-        private readonly IStatusRepository _statusRepository;
+        private readonly IstatusRepository _statusRepository;
         private readonly IBaseValida _baseValida;
 
-        public StatusController(IStatusRepository statusRepository, IBaseValida baseValida)
+        public statusController(IstatusRepository statusRepository, IBaseValida baseValida)
         {
             _statusRepository = statusRepository;
             _baseValida = baseValida;
         }
 
-        // GET: api/Status
-        [HttpGet("/Busca_Todos_Status")]
-        public IEnumerable<StatusEntity> Get()
+        // GET: api/status
+        [HttpGet("/Busca_Todos_status")]
+        public IEnumerable<statusEntity> Get()
         {
             return _statusRepository.GetAll();
         }
 
-        // GET: api/Status/5
-        [HttpGet("/Busca_Status/{id}")]
-        public ActionResult<StatusEntity> Get(int id)
+        // GET: api/status/5
+        [HttpGet("/Busca_status/{id}")]
+        public ActionResult<statusEntity> Get(int id)
         {
             var statusExiste = _statusRepository.Get(id);
             if (statusExiste != null)
@@ -41,35 +41,35 @@ namespace vsSHOPPER1.Controllers
                 return new BadRequestObjectResult("Nao existe esse ID");
         }
 
-        // POST: api/Status
-        [HttpPost("/Cadastro_Status/")]
-        public ActionResult<StatusEntity> Post([FromBody] StatusEntity statusEntity)
+        // POST: api/status
+        [HttpPost("/Cadastro_status/")]
+        public ActionResult<statusEntity> Post([FromBody] statusEntity statusEntity)
         {
-            statusEntity.NOME = statusEntity.NOME.Trim(' ');
-            if (ValidacaoStatus(statusEntity))
+            statusEntity.nome = statusEntity.nome.Trim(' ');
+            if (Validacaostatus(statusEntity))
             {
                 return new BadRequestObjectResult("Campo Null");
             }else
                 return new OkObjectResult(_statusRepository.Add(statusEntity));
         }
 
-        private bool ValidacaoStatus(StatusEntity statusEntity)
+        private bool Validacaostatus(statusEntity statusEntity)
         {
-            //statusEntity.NOME = statusEntity.NOME.Trim(' ');
-            if (_baseValida.ValidaCampoNull(statusEntity.NOME))
+            //statusEntity.nome = statusEntity.nome.Trim(' ');
+            if (_baseValida.ValidaCampoNull(statusEntity.nome))
             {
                 return true;
             }
             return false;
         }
-        // PUT: api/Status/5
-        [HttpPut("/Update_Status/")]
-        public ActionResult<StatusEntity> Put([FromBody] StatusEntity statusEntity)
+        // PUT: api/status/5
+        [HttpPut("/Update_status/")]
+        public ActionResult<statusEntity> Put([FromBody] statusEntity statusEntity)
         {
             try
             {
-                statusEntity.NOME = statusEntity.NOME.Trim(' ');
-                if (ValidacaoStatus(statusEntity))
+                statusEntity.nome = statusEntity.nome.Trim(' ');
+                if (Validacaostatus(statusEntity))
                 {
                     return new OkObjectResult(_statusRepository.Update(statusEntity));
                 }
@@ -83,7 +83,7 @@ namespace vsSHOPPER1.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("/Delete_Status/{id}")]
+        [HttpDelete("/Delete_status/{id}")]
         public ActionResult Delete(int id)
         {
             var existe = _statusRepository.Get(id);
@@ -95,7 +95,7 @@ namespace vsSHOPPER1.Controllers
                     _statusRepository.Delete(id);
                 }
                 else
-                    return new BadRequestObjectResult("Nao Pode Excluir Esse Status");
+                    return new BadRequestObjectResult("Nao Pode Excluir Esse status");
             }
             else
                 return new BadRequestObjectResult("NAO EXISTE ESSE CODIGO");

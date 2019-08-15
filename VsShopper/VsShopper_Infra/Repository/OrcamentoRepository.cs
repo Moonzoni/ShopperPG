@@ -13,7 +13,7 @@ namespace VsShopper_Infra.Repository
 
         public virtual IEnumerable<OrcamentoEntity> FindByCompra(int cod_compra)
         {
-            return _vsShopperContext.Set<OrcamentoEntity>().Where(x => x.COD_COMPRAS == cod_compra).ToList();
+            return _vsShopperContext.Set<OrcamentoEntity>().Where(x => x.cod_compra == cod_compra).ToList();
         }
     }
 }

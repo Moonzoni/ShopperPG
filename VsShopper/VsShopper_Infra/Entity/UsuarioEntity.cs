@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace VsShopper_Infra.Entity
 {
-    [Table("USUARIO")]
-    public class UsuarioEntity
+    [Table("usuario")]
+    public class usuarioEntity
     {
         [Key]
         public int cod_usuario { get; set; }

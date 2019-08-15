@@ -12,45 +12,45 @@ namespace vsSHOPPER1.Controllers
 {
     [Route("[controller]/")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class usuarioController : ControllerBase
     {
-        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IusuarioRepository _usuarioRepository;
         private readonly IPerfilRepository _perfilRepository;
         private readonly IBaseValida _baseValida;
 
 
-        public UsuarioController(IUsuarioRepository usuarioRepository, IPerfilRepository perfilRepository, IBaseValida baseValida)
+        public usuarioController(IusuarioRepository usuarioRepository, IPerfilRepository perfilRepository, IBaseValida baseValida)
         {
             _usuarioRepository = usuarioRepository;
             _perfilRepository = perfilRepository;
             _baseValida = baseValida;
         }
 
-        // GET: api/Usuario
-        [HttpGet("Busca_Todos_Usuarios/")]
-        public IEnumerable<UsuarioDTO> Get()
+        // GET: api/usuario
+        [HttpGet("Busca_Todos_usuarios/")]
+        public IEnumerable<usuarioDTO> Get()
         {
-            return _usuarioRepository.GetAll().Select(x => new UsuarioDTO(){
-                PERFIL = _perfilRepository.Get(x.COD_PERFIL),
-                COD_USUARIO = x.COD_USUARIO,
-                NOME = x.NOME,
-                EMAIL = x.EMAIL
+            return _usuarioRepository.GetAll().Select(x => new usuarioDTO(){
+                perfil = _perfilRepository.Get(x.cod_perfil),
+                cod_usuario = x.cod_usuario,
+                nome = x.nome,
+                email = x.email
             });
         }
 
-        // GET: api/Usuario/5
-        [HttpGet("Busca_Usuario/{id}")]
-        public ActionResult<UsuarioDTO> Get(int id)
+        // GET: api/usuario/5
+        [HttpGet("Busca_usuario/{id}")]
+        public ActionResult<usuarioDTO> Get(int id)
         {
             var usuario = _usuarioRepository.Get(id);
             if (usuario != null)
             {
-                return new OkObjectResult(new UsuarioDTO()
+                return new OkObjectResult(new usuarioDTO()
                 {
-                    PERFIL = _perfilRepository.Get(usuario.COD_PERFIL),
-                    COD_USUARIO = usuario.COD_USUARIO,
-                    NOME = usuario.NOME,
-                    EMAIL = usuario.EMAIL
+                    perfil = _perfilRepository.Get(usuario.cod_perfil),
+                    cod_usuario = usuario.cod_usuario,
+                    nome = usuario.nome,
+                    email = usuario.email
                 });
             }
             else
@@ -58,43 +58,43 @@ namespace vsSHOPPER1.Controllers
             
         }
 
-        // POST: api/Usuario
-        [HttpPost("Cadastro_Usuario")]
-        public ActionResult<UsuarioDTO> Post([FromBody] UsuarioDTO usuarioDTO)
+        // POST: api/usuario
+        [HttpPost("Cadastro_usuario")]
+        public ActionResult<usuarioDTO> Post([FromBody] usuarioDTO usuarioDTO)
         {
-            usuarioDTO.NOME = usuarioDTO.NOME.Trim(' ');//nao esta perfeito
-            usuarioDTO.EMAIL = usuarioDTO.EMAIL.Trim(' ');
-            if (!ValidaUsuario(usuarioDTO))
+            usuarioDTO.nome = usuarioDTO.nome.Trim(' ');//nao esta perfeito
+            usuarioDTO.email = usuarioDTO.email.Trim(' ');
+            if (!Validausuario(usuarioDTO))
             {
-                var usuarioEntity = new UsuarioEntity()
+                var usuarioEntity = new usuarioEntity()
                 {
-                    COD_PERFIL = usuarioDTO.PERFIL.COD_PERFIL,
-                    EMAIL = usuarioDTO.EMAIL,
-                    NOME = usuarioDTO.NOME
+                    cod_perfil = usuarioDTO.perfil.cod_perfil,
+                    email = usuarioDTO.email,
+                    nome = usuarioDTO.nome
                 };
-                var NewUsuario = _usuarioRepository.Add(usuarioEntity);
-                usuarioDTO.COD_USUARIO = NewUsuario.COD_USUARIO;
+                var Newusuario = _usuarioRepository.Add(usuarioEntity);
+                usuarioDTO.cod_usuario = Newusuario.cod_usuario;
                 return new OkObjectResult(usuarioDTO);
             }
             else
                 return new BadRequestObjectResult("Erro no cadastro");
         }
 
-        private bool ValidaUsuario(UsuarioDTO usuario)
+        private bool Validausuario(usuarioDTO usuario)
         {
             int cont = 0;
-            var PerfilExistente = _perfilRepository.GetNoTracking(usuario.PERFIL.COD_PERFIL);
-            var ValidaEmailExistente = _usuarioRepository.FindByEmail(usuario.EMAIL);
+            var PerfilExistente = _perfilRepository.GetNoTracking(usuario.perfil.cod_perfil);
+            var ValidaEmailExistente = _usuarioRepository.FindByEmail(usuario.email);
             
-            if (_baseValida.ValidaCampoNull(usuario.NOME, usuario.EMAIL, usuario.COD_USUARIO.ToString()) 
-                | _baseValida.ValidaEmail(usuario.EMAIL)
-                | _baseValida.ValidaNome(usuario.NOME)
+            if (_baseValida.ValidaCampoNull(usuario.nome, usuario.email, usuario.cod_usuario.ToString()) 
+                | _baseValida.ValidaEmail(usuario.email)
+                | _baseValida.ValidaNome(usuario.nome)
                 | PerfilExistente == null)//Arrumar o email 
             {
                 cont++;
             }
 
-            if (usuario.COD_USUARIO == 0)
+            if (usuario.cod_usuario == 0)
             {
                 if (ValidaEmailExistente != null)
                 {
@@ -103,12 +103,12 @@ namespace vsSHOPPER1.Controllers
             }
 
 
-            if (usuario.COD_USUARIO != 0)
+            if (usuario.cod_usuario != 0)
             {
-                var UsuarioExistente = _usuarioRepository.GetNoTracking(usuario.COD_USUARIO);
-                if (UsuarioExistente != null)
+                var usuarioExistente = _usuarioRepository.GetNoTracking(usuario.cod_usuario);
+                if (usuarioExistente != null)
                 {
-                    if (ValidaEmailExistente != null && usuario.EMAIL != UsuarioExistente.EMAIL) 
+                    if (ValidaEmailExistente != null && usuario.email != usuarioExistente.email) 
                     {
                         cont++;
                     }
@@ -123,22 +123,22 @@ namespace vsSHOPPER1.Controllers
             }
             return false;
         }
-        // PUT: api/Usuario/5
-        [HttpPut("Update_Usuario")]
-        public ActionResult<UsuarioDTO> Put([FromBody] UsuarioDTO usuarioDTO)
+        // PUT: api/usuario/5
+        [HttpPut("Update_usuario")]
+        public ActionResult<usuarioDTO> Put([FromBody] usuarioDTO usuarioDTO)
         {
            try
             {
-                if (!ValidaUsuario(usuarioDTO))
+                if (!Validausuario(usuarioDTO))
                 {
-                    var usuarioEntity = new UsuarioEntity()
+                    var usuarioEntity = new usuarioEntity()
                     {
-                        COD_USUARIO = usuarioDTO.COD_USUARIO,
-                        COD_PERFIL = usuarioDTO.PERFIL.COD_PERFIL,
-                        EMAIL = usuarioDTO.EMAIL,
-                        NOME = usuarioDTO.NOME
+                        cod_usuario = usuarioDTO.cod_usuario,
+                        cod_perfil = usuarioDTO.perfil.cod_perfil,
+                        email = usuarioDTO.email,
+                        nome = usuarioDTO.nome
                     };
-                    var UpdateUsuario = _usuarioRepository.Update(usuarioEntity);
+                    var Updateusuario = _usuarioRepository.Update(usuarioEntity);
                     return new OkObjectResult(usuarioDTO);
                 }
                 else  
@@ -151,7 +151,7 @@ namespace vsSHOPPER1.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("Delete_Usuario{id}")]
+        [HttpDelete("Delete_usuario{id}")]
         public ActionResult Delete(int id)
         {
             var existe = _usuarioRepository.Get(id);

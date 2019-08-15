@@ -8,24 +8,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VsShopper_Infra.Repository
 {
-    public class UsuarioRepository : BaseRepository<UsuarioEntity>, IUsuarioRepository
+    public class usuarioRepository : BaseRepository<usuarioEntity>, IusuarioRepository
     {
 
-        public UsuarioRepository(VsShopperContext vsShopperContext) : base(vsShopperContext) { }
+        public usuarioRepository(VsShopperContext vsShopperContext) : base(vsShopperContext) { }
 
-        public UsuarioEntity GetNoTracking(int id)
+        public usuarioEntity GetNoTracking(int id)
         {
-            return this._vsShopperContext.Set<UsuarioEntity>().AsNoTracking<UsuarioEntity>().FirstOrDefault(x => x.COD_USUARIO == id);
+            return this._vsShopperContext.Set<usuarioEntity>().AsNoTracking<usuarioEntity>().FirstOrDefault(x => x.cod_usuario == id);
         }
 
         public bool PodeExcluir(int id)
         {
-            var verificaCompras = _vsShopperContext.Set<ComprasEntity>().Any(x => x.COD_USUARIO == id);
+            var verificaCompras = _vsShopperContext.Set<ComprasEntity>().Any(x => x.cod_usuario == id);
             return !verificaCompras; 
         }
-        public UsuarioEntity FindByEmail(string email)
+        public usuarioEntity FindByEmail(string email)
         {
-            return this._vsShopperContext.Set<UsuarioEntity>().AsNoTracking<UsuarioEntity>().FirstOrDefault(x => x.EMAIL == email);
+            return this._vsShopperContext.Set<usuarioEntity>().AsNoTracking<usuarioEntity>().FirstOrDefault(x => x.email == email);
         }
 
 

@@ -14,14 +14,14 @@ namespace VsShopper_Infra.Repository
 
         public PerfilEntity GetNoTracking(int id)
         {
-            return this._vsShopperContext.Set<PerfilEntity>().AsNoTracking<PerfilEntity>().FirstOrDefault(x => x.COD_PERFIL == id);
+            return this._vsShopperContext.Set<PerfilEntity>().AsNoTracking<PerfilEntity>().FirstOrDefault(x => x.cod_perfil == id);
 
         }
 
         public bool PodeExcluir(int id)
         {
-            var verificaStatus = _vsShopperContext.Set<UsuarioEntity>().Any(x => x.COD_PERFIL == id);
-            return !verificaStatus;
+            var verificastatus = _vsShopperContext.Set<usuarioEntity>().Any(x => x.cod_perfil == id);
+            return !verificastatus;
         }
 
     }

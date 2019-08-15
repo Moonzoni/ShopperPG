@@ -8,9 +8,9 @@ namespace VsShopper_Infra.Interface
 {
     public interface IComprasRepository : IBaseRepository<ComprasEntity>
     {
-        IEnumerable<ComprasEntity> FindByStatus(int id);
+        IEnumerable<ComprasEntity> FindBystatus(int id);
         IEnumerable<ComprasEntity> FindByCategoria(int id);
-        IEnumerable<ComprasEntity> FindByTitulo(string Titulo);
+        IEnumerable<ComprasEntity> FindBytitulo(string titulo);
         IEnumerable<ComprasEntity> FindByDescricao(string Descricao);
         bool PodeExcluir(int id);
     }

@@ -46,10 +46,10 @@ namespace vsSHOPPER1
             });
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(ICategoriaRepository), typeof(CategoriaRepository));
+            services.AddScoped(typeof(ICategoriaRepository), typeof(categoriaRepository));
             services.AddScoped(typeof(IPerfilRepository), typeof(PerfilRepository));
-            services.AddScoped(typeof(IStatusRepository), typeof(StatusRepository));
-            services.AddScoped(typeof(IUsuarioRepository), typeof(UsuarioRepository));
+            services.AddScoped(typeof(IstatusRepository), typeof(statusRepository));
+            services.AddScoped(typeof(IusuarioRepository), typeof(usuarioRepository));
             services.AddScoped(typeof(IComprasRepository), typeof(ComprasRepository));
             services.AddScoped(typeof(IOrcamentoRepository), typeof(OrcamentoRepository));
             services.AddScoped(typeof(IBaseValida), typeof(BaseValidaRepository));

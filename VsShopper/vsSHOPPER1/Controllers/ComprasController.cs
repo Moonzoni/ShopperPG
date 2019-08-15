@@ -16,14 +16,14 @@ namespace vsSHOPPER1.Controllers
     public class ComprasController : ControllerBase
     {
         private readonly IComprasRepository _comprasRepository;
-        private readonly IStatusRepository _statusRepository;
-        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IstatusRepository _statusRepository;
+        private readonly IusuarioRepository _usuarioRepository;
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IOrcamentoRepository _orcamentoRepository;
         private readonly IBaseValida _baseValida;
 
-        public ComprasController(IComprasRepository compras, IStatusRepository status,
-                                    IUsuarioRepository usuario, ICategoriaRepository categoria, 
+        public ComprasController(IComprasRepository compras, IstatusRepository status,
+                                    IusuarioRepository usuario, ICategoriaRepository categoria, 
                                     IOrcamentoRepository orcamento, IBaseValida baseValida)
         {
             _comprasRepository = compras;
@@ -41,38 +41,38 @@ namespace vsSHOPPER1.Controllers
             return Find(_comprasRepository.GetAll());
         }
 
-        [HttpGet("Busca_Compras_Status{idStatus}")]
-        public IEnumerable<ComprasDTO> Busca_status(int idStatus)
+        [HttpGet("Busca_Compras_status{idstatus}")]
+        public IEnumerable<ComprasDTO> Busca_status(int idstatus)
         {
-            var existe = _statusRepository.Get(idStatus);
+            var existe = _statusRepository.Get(idstatus);
             if (existe != null)
             {
-                return Find(_comprasRepository.FindByStatus(idStatus));
+                return Find(_comprasRepository.FindBystatus(idstatus));
             }
             return null;
         }
 
-        [HttpGet("Busca_Compras_Categoria{Cod_Categoria}")]
-        public IEnumerable<ComprasDTO> Busca_Categoria(int Cod_Categoria)
+        [HttpGet("Busca_Compras_categoria{cod_categoria}")]
+        public IEnumerable<ComprasDTO> Busca_categoria(int cod_categoria)
         {
-            var existe = _categoriaRepository.Get(Cod_Categoria);
+            var existe = _categoriaRepository.Get(cod_categoria);
             if (existe != null)
             {
-                return Find(_comprasRepository.FindByCategoria(Cod_Categoria));
+                return Find(_comprasRepository.FindByCategoria(cod_categoria));
             }
             return null;
         }
 
-        [HttpGet("Busca_Compras_Titulo{Titulo}")]
-        public IEnumerable<ComprasDTO> FindByTitulo(string Titulo)
+        [HttpGet("Busca_Compras_titulo{titulo}")]
+        public IEnumerable<ComprasDTO> FindBytitulo(string titulo)
         {
-            return Find(_comprasRepository.FindByTitulo(Titulo));
+            return Find(_comprasRepository.FindBytitulo(titulo));
         }
 
-        [HttpGet("Busca_Compras_Descricao{Descricao}")]
-        public IEnumerable<ComprasDTO> FindByDescricao(string Descricao)
+        [HttpGet("Busca_Compras_descricao{descricao}")]
+        public IEnumerable<ComprasDTO> FindByDescricao(string descricao)
         {
-            return Find(_comprasRepository.FindByDescricao(Descricao));
+            return Find(_comprasRepository.FindByDescricao(descricao));
         }
 
         [HttpGet("Busca_Compras_Aprovadas")]
@@ -80,7 +80,7 @@ namespace vsSHOPPER1.Controllers
         {
             var existe = _statusRepository.Get(2);
             if (existe != null)
-                return Find(_comprasRepository.FindByStatus(2));
+                return Find(_comprasRepository.FindBystatus(2));
 
             return null;
         }
@@ -89,7 +89,7 @@ namespace vsSHOPPER1.Controllers
         {
             var existe = _statusRepository.Get(10);
             if (existe != null)
-                return Find(_comprasRepository.FindByStatus(10));
+                return Find(_comprasRepository.FindBystatus(10));
             return null;
         }
 
@@ -98,15 +98,15 @@ namespace vsSHOPPER1.Controllers
         {
             return Listcompras.Select(x => new ComprasDTO()
             {
-                STATUS = _statusRepository.Get(x.COD_STATUS),
-                USUARIO = _usuarioRepository.Get(x.COD_USUARIO),
-                CATEGORIA = _categoriaRepository.Get(x.COD_CATEGORIA),
-                COD_COMPRAS = x.COD_COMPRAS,
-                DESCRICAO = x.DESCRICAO,
-                TITULO = x.TITULO,
-                Data_Abertura = x.DATA_ABERTURA,
-                Data_Finalizado = x.DATA_FINALIZACAO,
-                OrcamentoDTOs = _orcamentoRepository.FindByCompra(x.COD_COMPRAS).ToList()
+                status = _statusRepository.Get(x.cod_status),
+                usuario = _usuarioRepository.Get(x.cod_usuario),
+                categoria = _categoriaRepository.Get(x.cod_categoria),
+                cod_compra = x.cod_compra,
+                descricao = x.descricao,
+                titulo = x.titulo,
+                data_abertura = x.data_abertura,
+                data_finalizada = x.data_finalizada,
+                orcamentodtos = _orcamentoRepository.FindByCompra(x.cod_compra).ToList()
             });
         }
 
@@ -117,15 +117,15 @@ namespace vsSHOPPER1.Controllers
             var compras = _comprasRepository.Get(id);
             return new ComprasDTO()
             {
-                STATUS = _statusRepository.Get(compras.COD_STATUS),
-                USUARIO = _usuarioRepository.Get(compras.COD_USUARIO),
-                CATEGORIA = _categoriaRepository.Get(compras.COD_CATEGORIA),
-                COD_COMPRAS = compras.COD_COMPRAS,
-                DESCRICAO = compras.DESCRICAO,
-                TITULO = compras.TITULO,
-                Data_Abertura = compras.DATA_ABERTURA,
-                Data_Finalizado = compras.DATA_FINALIZACAO,
-                OrcamentoDTOs = _orcamentoRepository.FindByCompra(compras.COD_COMPRAS).ToList()
+                status = _statusRepository.Get(compras.cod_status),
+                usuario = _usuarioRepository.Get(compras.cod_usuario),
+                categoria = _categoriaRepository.Get(compras.cod_categoria),
+                cod_compra = compras.cod_compra,
+                descricao = compras.descricao,
+                titulo = compras.titulo,
+                data_abertura = compras.data_abertura,
+                data_finalizada = compras.data_finalizada,
+                orcamentodtos = _orcamentoRepository.FindByCompra(compras.cod_compra).ToList()
             };
         }
 
@@ -133,28 +133,28 @@ namespace vsSHOPPER1.Controllers
         [HttpPost("Cadastro_Compras")]
         public ActionResult<ComprasDTO> Post([FromBody] ComprasDTO comprasDTO)
         {
-            comprasDTO.TITULO = comprasDTO.TITULO.Trim(' ');
-            comprasDTO.DESCRICAO = comprasDTO.DESCRICAO.Trim(' ');
+            comprasDTO.titulo = comprasDTO.titulo.Trim(' ');
+            comprasDTO.descricao = comprasDTO.descricao.Trim(' ');
             if (!ValidaCompraCadastro(comprasDTO))
             {
                 var Compra = new ComprasEntity()
                 {
-                    COD_CATEGORIA = comprasDTO.CATEGORIA.COD_CATEGORIA,
-                    COD_STATUS = 1,
-                    COD_USUARIO = comprasDTO.USUARIO.COD_USUARIO,
-                    TITULO = comprasDTO.TITULO,
-                    DESCRICAO = comprasDTO.DESCRICAO,
-                    DATA_ABERTURA = DateTime.Now
+                    cod_categoria = comprasDTO.categoria.cod_categoria,
+                    cod_status = 1,
+                    cod_usuario = comprasDTO.usuario.cod_usuario,
+                    titulo = comprasDTO.titulo,
+                    descricao = comprasDTO.descricao,
+                    data_abertura = DateTime.Now
                     
                 };
                 var NewCompra = _comprasRepository.Add(Compra);
-                comprasDTO.COD_COMPRAS = NewCompra.COD_COMPRAS;
-                for (int i = 0; i < comprasDTO.OrcamentoDTOs.Count; i++)
+                comprasDTO.cod_compra = NewCompra.cod_compra;
+                for (int i = 0; i < comprasDTO.orcamentodtos.Count; i++)
                 {
-                    comprasDTO.OrcamentoDTOs.ToArray()[i].COD_COMPRAS = NewCompra.COD_COMPRAS;
-                    var orcamento = comprasDTO.OrcamentoDTOs[i];
+                    comprasDTO.orcamentodtos.ToArray()[i].cod_compra = NewCompra.cod_compra;
+                    var orcamento = comprasDTO.orcamentodtos[i];
                     var NewOrcamento = _orcamentoRepository.Add(orcamento);
-                    comprasDTO.OrcamentoDTOs[i].COD_ORCAMENTO = NewOrcamento.COD_ORCAMENTO;
+                    comprasDTO.orcamentodtos[i].cod_orcamento = NewOrcamento.cod_orcamento;
                 }
                 return new OkObjectResult(comprasDTO);
 
@@ -167,18 +167,18 @@ namespace vsSHOPPER1.Controllers
         private bool ValidaCompraCadastro(ComprasDTO compra)
         {
             int cont = 0;
-            //var StatusExistente = _statusRepository.Get(compra.STATUS.COD_STATUS);
-            var CategoriaExistente = _categoriaRepository.GetNoTracking(compra.CATEGORIA.COD_CATEGORIA);
-            var UsuarioExistente = _usuarioRepository.GetNoTracking(compra.USUARIO.COD_USUARIO);
-            if (_baseValida.ValidaCampoNull(compra.DESCRICAO, compra.TITULO)|| CategoriaExistente == null|| UsuarioExistente == null)
+            //var statusExistente = _statusRepository.Get(compra.status.cod_status);
+            var categoriaExistente = _categoriaRepository.GetNoTracking(compra.categoria.cod_categoria);
+            var usuarioExistente = _usuarioRepository.GetNoTracking(compra.usuario.cod_usuario);
+            if (_baseValida.ValidaCampoNull(compra.descricao, compra.titulo)|| categoriaExistente == null|| usuarioExistente == null)
             {
                 cont++;
             }
 
-            for (int i = 0; i < compra.OrcamentoDTOs.Count; i++)
+            for (int i = 0; i < compra.orcamentodtos.Count; i++)
             {
-                if (_baseValida.ValidaCampoNull(compra.OrcamentoDTOs[i].LINK, compra.OrcamentoDTOs[i].NOME)
-                    | _baseValida.ValidaLink(compra.OrcamentoDTOs[i].LINK))
+                if (_baseValida.ValidaCampoNull(compra.orcamentodtos[i].link, compra.orcamentodtos[i].nome)
+                    | _baseValida.ValidaLink(compra.orcamentodtos[i].link))
                 {
                     cont++;
                 }
@@ -199,8 +199,8 @@ namespace vsSHOPPER1.Controllers
             {
                 if (ValidaCompraUpdate(compraRequest))
                 {
-                    NewCompra.TITULO = compraRequest.Titulo;
-                    NewCompra.DESCRICAO = compraRequest.Descricao;
+                    NewCompra.titulo = compraRequest.titulo;
+                    NewCompra.descricao = compraRequest.descricao;
 
                     var Compra = _comprasRepository.Update(NewCompra);
                     return new OkObjectResult(compraRequest);
@@ -216,7 +216,7 @@ namespace vsSHOPPER1.Controllers
         private bool ValidaCompraUpdate(CompraRequest compraRequest)
         {
             var CompraExistente = _comprasRepository.Get(compraRequest.Cod_compra);
-            if (_baseValida.ValidaCampoNull(compraRequest.Titulo, compraRequest.Descricao)
+            if (_baseValida.ValidaCampoNull(compraRequest.titulo, compraRequest.descricao)
                 || CompraExistente == null)
             {
                 return true;
@@ -224,47 +224,47 @@ namespace vsSHOPPER1.Controllers
             return false;
         }
 
-        [HttpPut("Troca_Status/")]
-        public ActionResult MudaStatus(int cod_usuario, int cod_compra, int cod_Status)
+        [HttpPut("Troca_status/")]
+        public ActionResult Mudastatus(int cod_usuario, int cod_compra, int cod_status)
         {
             var usuario = _usuarioRepository.Get(cod_usuario);
             var compra = _comprasRepository.Get(cod_compra);
-            var status = _statusRepository.Get(cod_Status);
+            var status = _statusRepository.Get(cod_status);
             if (status != null & usuario != null & compra != null)
             {
-                if (compra.COD_STATUS != 10)
+                if (compra.cod_status != 10)
                 {
-                    if (cod_Status == 2 && usuario.COD_PERFIL == 1 || usuario.COD_PERFIL == 2)
+                    if (cod_status == 2 && usuario.cod_perfil == 1 || usuario.cod_perfil == 2)
                     {
                         goto flag;
                     }
-                    else if (cod_Status == 10 && (usuario.COD_PERFIL == 1 || usuario.COD_PERFIL == 2 || usuario.COD_PERFIL == 3))
+                    else if (cod_status == 10 && (usuario.cod_perfil == 1 || usuario.cod_perfil == 2 || usuario.cod_perfil == 3))
                     {
                         goto flag;
                     }
-                    else if ((cod_Status != 2 && cod_Status != 10) && (usuario.COD_PERFIL != 1 & usuario.COD_PERFIL != 2 & usuario.COD_PERFIL != 3))
+                    else if ((cod_status != 2 && cod_status != 10) && (usuario.cod_perfil != 1 & usuario.cod_perfil != 2 & usuario.cod_perfil != 3))
                     {
                         goto flag;
                     }
                     else
                         return new BadRequestObjectResult("Permissão inválida");
                 }else
-                    return new BadRequestObjectResult("Compra Finalizado, não pode alterar o Status!");
+                    return new BadRequestObjectResult("Compra Finalizado, não pode alterar o status!");
             }
             else
                 return new BadRequestObjectResult("Não existe");
             flag:
-            _comprasRepository.Update(UpdateStatus(compra, cod_Status));
+            _comprasRepository.Update(Updatestatus(compra, cod_status));
 
             return new OkResult();
         }
 
-        private ComprasEntity UpdateStatus(ComprasEntity comprasEntity, int cod_status)
+        private ComprasEntity Updatestatus(ComprasEntity comprasEntity, int cod_status)
         {
             var CompraEntitity = comprasEntity;
             if (cod_status == 10)
-                comprasEntity.DATA_FINALIZACAO = DateTime.Now;            
-            CompraEntitity.COD_STATUS = cod_status;
+                comprasEntity.data_finalizada = DateTime.Now;            
+            CompraEntitity.cod_status = cod_status;
             return CompraEntitity;
         }
 

@@ -20,22 +20,22 @@ namespace VsShopper_Infra
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PerfilEntity>()
-                    .HasKey(x => x.COD_PERFIL);
+                    .HasKey(x => x.cod_perfil);
 
             modelBuilder.Entity<CategoriaEntity>()
-                .HasKey(x => x.COD_CATEGORIA);
+                .HasKey(x => x.cod_categoria);
 
-            modelBuilder.Entity<StatusEntity>()
-                .HasKey(x => x.COD_STATUS);
+            modelBuilder.Entity<statusEntity>()
+                .HasKey(x => x.cod_status);
 
-            modelBuilder.Entity<UsuarioEntity>()
-                    .HasKey(x => x.COD_USUARIO);
+            modelBuilder.Entity<usuarioEntity>()
+                    .HasKey(x => x.cod_usuario);
 
             modelBuilder.Entity<ComprasEntity>()
-                .HasKey(x => x.COD_COMPRAS);
+                .HasKey(x => x.cod_compra);
 
             modelBuilder.Entity<OrcamentoEntity>()
-                .HasKey(x => x.COD_ORCAMENTO);
+                .HasKey(x => x.cod_orcamento);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace vsSHOPPER1.Controllers
         {
             try
             {
-                perfilEntity.NOME = perfilEntity.NOME.Trim(' ');
+                perfilEntity.nome = perfilEntity.nome.Trim(' ');
                 if (ValidaPerfil(perfilEntity))
                 {
                     return new BadRequestObjectResult("Erro Cadastro Perfil");
@@ -63,7 +63,7 @@ namespace vsSHOPPER1.Controllers
         
         private bool ValidaPerfil(PerfilEntity perfilEntity)
         {
-            if (_baseValida.ValidaNome(perfilEntity.NOME) || _baseValida.ValidaCampoNull(perfilEntity.NOME))
+            if (_baseValida.ValidaNome(perfilEntity.nome) || _baseValida.ValidaCampoNull(perfilEntity.nome))
                 return true; 
             return false;
         }
@@ -74,8 +74,8 @@ namespace vsSHOPPER1.Controllers
         {
             try
             {
-                perfilEntity.NOME = perfilEntity.NOME.Trim(' ');
-                var TesteExiste = _perfilRepository.GetNoTracking(perfilEntity.COD_PERFIL);
+                perfilEntity.nome = perfilEntity.nome.Trim(' ');
+                var TesteExiste = _perfilRepository.GetNoTracking(perfilEntity.cod_perfil);
                 if (TesteExiste != null)
                 {
                     if (ValidaPerfil(perfilEntity))

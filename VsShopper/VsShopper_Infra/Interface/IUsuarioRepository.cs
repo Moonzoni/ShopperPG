@@ -5,10 +5,10 @@ using VsShopper_Infra.Entity;
 
 namespace VsShopper_Infra.Interface
 {
-    public interface IUsuarioRepository: IBaseRepository<UsuarioEntity>
+    public interface IusuarioRepository: IBaseRepository<usuarioEntity>
     {
         bool PodeExcluir(int id);
-        UsuarioEntity GetNoTracking(int id);
-        UsuarioEntity FindByEmail(string email);
+        usuarioEntity GetNoTracking(int id);
+        usuarioEntity FindByEmail(string email);
     }
 }

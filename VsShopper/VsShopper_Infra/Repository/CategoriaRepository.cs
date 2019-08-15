@@ -8,20 +8,20 @@ using VsShopper_Infra.Interface;
 
 namespace VsShopper_Infra.Repository
 {
-    public class CategoriaRepository : BaseRepository<CategoriaEntity>, ICategoriaRepository
+    public class categoriaRepository : BaseRepository<CategoriaEntity>, ICategoriaRepository
     {
-        public CategoriaRepository(VsShopperContext baseContext) : base(baseContext) { }
+        public categoriaRepository(VsShopperContext baseContext) : base(baseContext) { }
 
         public bool PodeExcluir(int id)
         {
-            var verificaCompras = _vsShopperContext.Set<ComprasEntity>().Any(x => x.COD_CATEGORIA == id);
+            var verificaCompras = _vsShopperContext.Set<ComprasEntity>().Any(x => x.cod_categoria == id);
             return !verificaCompras;
         }
 
         public CategoriaEntity GetNoTracking(int id)
         {
             return this._vsShopperContext.Set<CategoriaEntity>().AsNoTracking<CategoriaEntity>()
-                       .FirstOrDefault(x => x.COD_CATEGORIA == id);
+                       .FirstOrDefault(x => x.cod_categoria == id);
         }
 
     }

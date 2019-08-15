@@ -16,7 +16,7 @@ namespace VsShopper_Infra.Entity
         public string descricao { get; set; }
         public int  cod_status { get; set; }
         public int cod_categoria { get; set; }
-        public int cod_usuarios { get; set; }
+        public int cod_usuario { get; set; }
         public DateTime data_abertura { get; set; }
         public DateTime? data_finalizada { get; set; }
     }    

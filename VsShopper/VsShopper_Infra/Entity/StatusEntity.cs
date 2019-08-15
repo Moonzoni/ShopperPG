@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace VsShopper_Infra.Entity
 {
-    [Table("STATUSS")]
-    public class StatusEntity
+    [Table("statusS")]
+    public class statusEntity
     {
         [Key]
         public int cod_status { get; set; }

@@ -11,27 +11,27 @@ namespace VsShopper_Infra.Repository
     {
         public bool PodeExcluir(int id)
         {
-            var verificaCompras = _vsShopperContext.Set<OrcamentoEntity>().Any(x => x.COD_COMPRAS == id);
+            var verificaCompras = _vsShopperContext.Set<OrcamentoEntity>().Any(x => x.cod_compra == id);
             return !verificaCompras;
         }
         public ComprasRepository(VsShopperContext vsShopperContext) : base(vsShopperContext){ }
 
-        public virtual IEnumerable<ComprasEntity> FindByStatus(int id)
+        public virtual IEnumerable<ComprasEntity> FindBystatus(int id)
         {
 
-            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.COD_STATUS == id);
+            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.cod_status == id);
         }
-        public virtual IEnumerable<ComprasEntity> FindByTitulo(string Titulo)
+        public virtual IEnumerable<ComprasEntity> FindBytitulo(string titulo)
         {
-            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.TITULO.Contains(Titulo));  
+            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.titulo.Contains(titulo));  
         }
         public virtual IEnumerable<ComprasEntity> FindByCategoria(int cod_categoria)
         {
-            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.COD_CATEGORIA == cod_categoria);
+            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.cod_categoria == cod_categoria);
         }
-        public virtual IEnumerable<ComprasEntity> FindByDescricao(string Descricao)
+        public virtual IEnumerable<ComprasEntity> FindByDescricao(string descricao)
         {
-            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.DESCRICAO.Contains(Descricao));
+            return _vsShopperContext.Set<ComprasEntity>().Where(x => x.descricao.Contains(descricao));
         }
     }
 }

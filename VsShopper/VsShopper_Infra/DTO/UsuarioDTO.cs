@@ -5,7 +5,7 @@ using VsShopper_Infra.Entity;
 
 namespace VsShopper_Infra.DTO
 {
-    public class UsuarioDTO
+    public class usuarioDTO
     {
         public int cod_usuario { get; set; }
         public string nome { get; set; }
