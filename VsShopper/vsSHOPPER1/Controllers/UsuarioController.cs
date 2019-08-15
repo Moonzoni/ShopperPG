@@ -66,7 +66,7 @@ namespace vsSHOPPER1.Controllers
             usuarioDTO.email = usuarioDTO.email.Trim(' ');
             if (!Validausuario(usuarioDTO))
             {
-                var usuarioEntity = new usuarioEntity()
+                var usuarioEntity = new UsuarioEntity()
                 {
                     cod_perfil = usuarioDTO.perfil.cod_perfil,
                     email = usuarioDTO.email,
@@ -131,7 +131,7 @@ namespace vsSHOPPER1.Controllers
             {
                 if (!Validausuario(usuarioDTO))
                 {
-                    var usuarioEntity = new usuarioEntity()
+                    var usuarioEntity = new UsuarioEntity()
                     {
                         cod_usuario = usuarioDTO.cod_usuario,
                         cod_perfil = usuarioDTO.perfil.cod_perfil,

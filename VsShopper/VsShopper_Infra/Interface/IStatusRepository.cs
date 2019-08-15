@@ -5,7 +5,7 @@ using VsShopper_Infra.Entity;
 
 namespace VsShopper_Infra.Interface
 {
-    public interface IstatusRepository: IBaseRepository<statusEntity>
+    public interface IStatusRepository: IBaseRepository<StatusEntity>
     {
         bool PodeExcluir(int id);
     }

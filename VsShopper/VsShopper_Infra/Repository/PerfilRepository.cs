@@ -20,7 +20,7 @@ namespace VsShopper_Infra.Repository
 
         public bool PodeExcluir(int id)
         {
-            var verificastatus = _vsShopperContext.Set<usuarioEntity>().Any(x => x.cod_perfil == id);
+            var verificastatus = _vsShopperContext.Set<UsuarioEntity>().Any(x => x.cod_perfil == id);
             return !verificastatus;
         }
 

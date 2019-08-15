@@ -7,9 +7,9 @@ using VsShopper_Infra.Interface;
 
 namespace VsShopper_Infra.Repository
 {
-   public class statusRepository : BaseRepository<statusEntity>, IstatusRepository
+   public class StatusRepository : BaseRepository<StatusEntity>, IStatusRepository
     {
-        public statusRepository (VsShopperContext vsShopperContext) : base(vsShopperContext) { }
+        public StatusRepository (VsShopperContext vsShopperContext) : base(vsShopperContext) { }
 
         public bool PodeExcluir(int id)
         {

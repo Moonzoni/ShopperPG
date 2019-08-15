@@ -25,10 +25,10 @@ namespace VsShopper_Infra
             modelBuilder.Entity<CategoriaEntity>()
                 .HasKey(x => x.cod_categoria);
 
-            modelBuilder.Entity<statusEntity>()
+            modelBuilder.Entity<StatusEntity>()
                 .HasKey(x => x.cod_status);
 
-            modelBuilder.Entity<usuarioEntity>()
+            modelBuilder.Entity<UsuarioEntity>()
                     .HasKey(x => x.cod_usuario);
 
             modelBuilder.Entity<ComprasEntity>()

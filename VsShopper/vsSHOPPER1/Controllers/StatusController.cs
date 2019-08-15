@@ -13,10 +13,10 @@ namespace vsSHOPPER1.Controllers
     [ApiController]
     public class statusController : ControllerBase
     {
-        private readonly IstatusRepository _statusRepository;
+        private readonly IStatusRepository _statusRepository;
         private readonly IBaseValida _baseValida;
 
-        public statusController(IstatusRepository statusRepository, IBaseValida baseValida)
+        public statusController(IStatusRepository statusRepository, IBaseValida baseValida)
         {
             _statusRepository = statusRepository;
             _baseValida = baseValida;
@@ -24,14 +24,14 @@ namespace vsSHOPPER1.Controllers
 
         // GET: api/status
         [HttpGet("/Busca_Todos_status")]
-        public IEnumerable<statusEntity> Get()
+        public IEnumerable<StatusEntity> Get()
         {
             return _statusRepository.GetAll();
         }
 
         // GET: api/status/5
         [HttpGet("/Busca_status/{id}")]
-        public ActionResult<statusEntity> Get(int id)
+        public ActionResult<StatusEntity> Get(int id)
         {
             var statusExiste = _statusRepository.Get(id);
             if (statusExiste != null)
@@ -43,7 +43,7 @@ namespace vsSHOPPER1.Controllers
 
         // POST: api/status
         [HttpPost("/Cadastro_status/")]
-        public ActionResult<statusEntity> Post([FromBody] statusEntity statusEntity)
+        public ActionResult<StatusEntity> Post([FromBody] StatusEntity statusEntity)
         {
             statusEntity.nome = statusEntity.nome.Trim(' ');
             if (Validacaostatus(statusEntity))
@@ -53,7 +53,7 @@ namespace vsSHOPPER1.Controllers
                 return new OkObjectResult(_statusRepository.Add(statusEntity));
         }
 
-        private bool Validacaostatus(statusEntity statusEntity)
+        private bool Validacaostatus(StatusEntity statusEntity)
         {
             //statusEntity.nome = statusEntity.nome.Trim(' ');
             if (_baseValida.ValidaCampoNull(statusEntity.nome))
@@ -64,7 +64,7 @@ namespace vsSHOPPER1.Controllers
         }
         // PUT: api/status/5
         [HttpPut("/Update_status/")]
-        public ActionResult<statusEntity> Put([FromBody] statusEntity statusEntity)
+        public ActionResult<StatusEntity> Put([FromBody] StatusEntity statusEntity)
         {
             try
             {

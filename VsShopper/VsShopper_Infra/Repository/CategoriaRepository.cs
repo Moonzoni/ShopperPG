@@ -8,9 +8,9 @@ using VsShopper_Infra.Interface;
 
 namespace VsShopper_Infra.Repository
 {
-    public class categoriaRepository : BaseRepository<CategoriaEntity>, ICategoriaRepository
+    public class CategoriaRepository : BaseRepository<CategoriaEntity>, ICategoriaRepository
     {
-        public categoriaRepository(VsShopperContext baseContext) : base(baseContext) { }
+        public CategoriaRepository(VsShopperContext baseContext) : base(baseContext) { }
 
         public bool PodeExcluir(int id)
         {

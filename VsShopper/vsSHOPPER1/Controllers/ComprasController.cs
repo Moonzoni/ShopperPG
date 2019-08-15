@@ -16,13 +16,13 @@ namespace vsSHOPPER1.Controllers
     public class ComprasController : ControllerBase
     {
         private readonly IComprasRepository _comprasRepository;
-        private readonly IstatusRepository _statusRepository;
+        private readonly IStatusRepository _statusRepository;
         private readonly IusuarioRepository _usuarioRepository;
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IOrcamentoRepository _orcamentoRepository;
         private readonly IBaseValida _baseValida;
 
-        public ComprasController(IComprasRepository compras, IstatusRepository status,
+        public ComprasController(IComprasRepository compras, IStatusRepository status,
                                     IusuarioRepository usuario, ICategoriaRepository categoria, 
                                     IOrcamentoRepository orcamento, IBaseValida baseValida)
         {
