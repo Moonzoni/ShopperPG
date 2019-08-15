@@ -17,13 +17,13 @@ namespace vsSHOPPER1.Controllers
     {
         private readonly IComprasRepository _comprasRepository;
         private readonly IStatusRepository _statusRepository;
-        private readonly IusuarioRepository _usuarioRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IOrcamentoRepository _orcamentoRepository;
         private readonly IBaseValida _baseValida;
 
         public ComprasController(IComprasRepository compras, IStatusRepository status,
-                                    IusuarioRepository usuario, ICategoriaRepository categoria, 
+                                    IUsuarioRepository usuario, ICategoriaRepository categoria, 
                                     IOrcamentoRepository orcamento, IBaseValida baseValida)
         {
             _comprasRepository = compras;
@@ -267,25 +267,6 @@ namespace vsSHOPPER1.Controllers
             CompraEntitity.cod_status = cod_status;
             return CompraEntitity;
         }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("Delete_compra/{id}")]
-        public ActionResult Delete(int id)
-        {
-            var existe = _comprasRepository.Get(id);
-            if (existe != null)
-            {
-                var podeExcluir = _comprasRepository.PodeExcluir(id);
-                if (podeExcluir)
-                {
-                    _comprasRepository.Delete(id);
-                }
-                else
-                    return new BadRequestObjectResult("Nao Pode Ser Exlcuido");
-            }
-            else
-                return new BadRequestObjectResult("Nao Existe Esse codigo de compra");
-            return new OkResult();
-        }
+       
     }
 }

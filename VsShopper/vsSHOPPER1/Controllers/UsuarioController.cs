@@ -14,12 +14,12 @@ namespace vsSHOPPER1.Controllers
     [ApiController]
     public class usuarioController : ControllerBase
     {
-        private readonly IusuarioRepository _usuarioRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IPerfilRepository _perfilRepository;
         private readonly IBaseValida _baseValida;
 
 
-        public usuarioController(IusuarioRepository usuarioRepository, IPerfilRepository perfilRepository, IBaseValida baseValida)
+        public usuarioController(IUsuarioRepository usuarioRepository, IPerfilRepository perfilRepository, IBaseValida baseValida)
         {
             _usuarioRepository = usuarioRepository;
             _perfilRepository = perfilRepository;

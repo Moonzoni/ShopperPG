@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VsShopper_Infra.Repository
 {
-    public class UsuarioRepository : BaseRepository<UsuarioEntity>, IusuarioRepository
+    public class UsuarioRepository : BaseRepository<UsuarioEntity>, IUsuarioRepository
     {
 
         public UsuarioRepository(VsShopperContext vsShopperContext) : base(vsShopperContext) { }
