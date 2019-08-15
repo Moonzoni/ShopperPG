@@ -11,13 +11,13 @@ namespace VsShopper_Infra.Entity
     public class ComprasEntity
     {
         [Key]
-        public int COD_COMPRAS { get; set; }
-        public string TITULO { get; set; }
-        public string DESCRICAO { get; set; }
-        public int  COD_STATUS { get; set; }
-        public int COD_CATEGORIA { get; set; }
-        public int COD_USUARIO { get; set; }
-        public DateTime DATA_ABERTURA { get; set; }
-        public DateTime? DATA_FINALIZACAO { get; set; }
+        public int cod_compra { get; set; }
+        public string titulo { get; set; }
+        public string descricao { get; set; }
+        public int  cod_status { get; set; }
+        public int cod_categoria { get; set; }
+        public int cod_usuarios { get; set; }
+        public DateTime data_abertura { get; set; }
+        public DateTime? data_finalizada { get; set; }
     }    
 }

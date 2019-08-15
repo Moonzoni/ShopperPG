@@ -11,7 +11,7 @@ namespace VsShopper_Infra.Entity
     public class PerfilEntity
     {
         [Key]
-        public int COD_PERFIL { get; set; }
-        public string NOME { get; set; }
+        public int cod_perfil { get; set; }
+        public string nome { get; set; }
     }
 }

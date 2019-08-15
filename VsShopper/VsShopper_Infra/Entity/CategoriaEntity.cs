@@ -11,7 +11,7 @@ namespace VsShopper_Infra.Entity
     public class CategoriaEntity
     {
         [Key]
-        public int COD_CATEGORIA { get; set; }
-        public string NOME { get; set; }
+        public int cod_categoria { get; set; }
+        public string nome { get; set; }
     }
 }

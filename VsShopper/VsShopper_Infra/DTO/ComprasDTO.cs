@@ -7,14 +7,14 @@ namespace VsShopper_Infra.DTO
 {
     public class ComprasDTO
     {
-        public int COD_COMPRAS { get; set; }
-        public string TITULO { get; set; }
-        public string DESCRICAO { get; set; }
-        public DateTime Data_Abertura { get; set; }
-        public DateTime? Data_Finalizado { get; set; }
-        public StatusEntity STATUS { get; set; }
-        public CategoriaEntity CATEGORIA { get; set; }
-        public UsuarioEntity USUARIO { get; set; }
-        public List<OrcamentoEntity> OrcamentoDTOs { get; set; }
+        public int cod_compra { get; set; }
+        public string titulo { get; set; }
+        public string descricao { get; set; }
+        public DateTime data_abertura { get; set; }
+        public DateTime? data_finalizado { get; set; }
+        public StatusEntity status { get; set; }
+        public CategoriaEntity categoria { get; set; }
+        public UsuarioEntity usuario { get; set; }
+        public List<OrcamentoEntity> orcamentodtos { get; set; }
     }
 }
