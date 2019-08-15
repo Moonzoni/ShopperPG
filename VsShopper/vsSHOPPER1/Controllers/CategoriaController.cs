@@ -22,7 +22,6 @@ namespace vsSHOPPER1.Controllers
         {
             _categoriaRepositor = categoriaRepositor;
             _baseValida = baseValida;
-
         }
 
         // GET: api/categoria
@@ -37,34 +36,84 @@ namespace vsSHOPPER1.Controllers
         public ActionResult<CategoriaEntity> Get(int id)
         {
             var categoriaExistente = _categoriaRepositor.Get(id);
+
             if (categoriaExistente != null)
             {
                 return new OkObjectResult(categoriaExistente);
             }
             else
+            {
                 return new BadRequestObjectResult("Nao Existe esse ID");
+            }
         }
 
         // POST: api/categoria
         [HttpPost("/Cadastro_categoria/")]
         public ActionResult<CategoriaEntity> Post([FromBody] CategoriaEntity categoria)
         {
-            if (!Validacategoria(categoria))
+            if (!ValidaCategoria(categoria))
             {
                 CategoriaEntity categoriaEntity = null;
                 categoriaEntity.nome = categoria.nome;
                 return new OkObjectResult(_categoriaRepositor.Add(categoriaEntity));
             }
             else
+            {
                 return new BadRequestObjectResult("Erro");
+            }
         }
 
-        private bool Validacategoria(CategoriaEntity categoria)
+        // PUT: api/categoria/5
+        [HttpPut("/Update_categoria/")]
+        public ActionResult<CategoriaEntity> Put([FromBody] CategoriaEntity categoria)
+        {
+            try
+            {
+                if (!ValidaCategoria(categoria))
+                {
+                    var categoriaEntity = new CategoriaEntity()
+                    {
+                        cod_categoria = categoria.cod_categoria,
+                        nome = categoria.nome
+                    };
+                    var Updatecategoria = _categoriaRepositor.Update(categoriaEntity);
+                    return new OkObjectResult(categoria);
+                }
+                else
+                {
+                    return new BadRequestObjectResult("Erro Update");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("/Delete_categoria/{id}")]
+        public void Delete(int id)
+        {
+            var existe = _categoriaRepositor.Get(id);
+
+            if (existe != null)
+            {
+                var podeExcluir = _categoriaRepositor.PodeExcluir(id);
+                if (podeExcluir)
+                {
+                    _categoriaRepositor.Delete(id);
+                }
+            }
+        }
+
+        private bool ValidaCategoria(CategoriaEntity categoria)
         {
             int cont = 0;
             if (_baseValida.ValidaCampoNull(categoria.nome)
-                || _baseValida.ValidaNome(categoria.nome))
+                || _baseValida.ValidaString(categoria.nome)
+                || _baseValida.ValidaString(categoria.nome))
             {
+                categoria.nome = _baseValida.ValidaEspaco(categoria.nome);
                 cont++;
             }
 
@@ -83,49 +132,5 @@ namespace vsSHOPPER1.Controllers
             }
             return false;
         }
-
-        // PUT: api/categoria/5
-        [HttpPut("/Update_categoria/")]
-        public ActionResult<CategoriaEntity> Put([FromBody] CategoriaEntity categoria)
-        {
-            try
-            {
-                if (!Validacategoria(categoria))
-                {
-                    var categoriaEntity = new CategoriaEntity()
-                    {
-                        cod_categoria = categoria.cod_categoria,
-                        nome = categoria.nome
-                    };
-                    var Updatecategoria = _categoriaRepositor.Update(categoriaEntity);
-                    return new OkObjectResult(categoria);
-                
-            }
-                else
-                return new BadRequestObjectResult("Erro Update");
-        }
-
-        catch (Exception)
-            {
-                throw;
-            }
-}
-
-    // DELETE: api/ApiWithActions/5
-    [HttpDelete("/Delete_categoria/{id}")]
-    public void Delete(int id)
-    {
-
-        var existe = _categoriaRepositor.Get(id);
-        if (existe != null)
-        {
-            var podeExcluir = _categoriaRepositor.PodeExcluir(id);
-            if (podeExcluir)
-            {
-                _categoriaRepositor.Delete(id);
-            }
-        }
-
     }
-}
 }

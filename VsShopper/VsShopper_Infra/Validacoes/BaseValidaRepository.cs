@@ -11,7 +11,7 @@ namespace VsShopper_Infra.Validacoes
 
         public bool ValidaCampoNull(params string[] param)
         {
-            string teste = "";
+            string teste = null;
             foreach (var item in param)
             {
                 if (item == teste)
@@ -28,8 +28,12 @@ namespace VsShopper_Infra.Validacoes
             {
                 return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
+
         public bool ValidaLink(string link)
         {
             string pattern = @"^(http|https|ftp|)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
@@ -40,9 +44,49 @@ namespace VsShopper_Infra.Validacoes
             }
             return false;
         }
-        public bool ValidaNome(string nome)
+        public bool ValidaString(string nome)
         {
             if (!Regex.IsMatch(nome, @"^[ a-zA-Z záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]*$"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public string ValidaEspaco(string campo)
+        {
+            campo = campo.Trim(' ');
+            return campo;
+        }
+
+        public bool ValidaUnique(string nome)
+        {
+            if (true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ValidaVazio(string Str)
+        {
+            if (Str != "")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ValidaInt(int valor)
+        {
+            var padrao = valor.ToString();
+            if (!Regex.IsMatch(padrao, @"^[0-9]"))
             {
                 return true;
             }
