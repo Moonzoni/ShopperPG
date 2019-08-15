@@ -11,7 +11,7 @@ namespace VsShopper_Infra.Validacoes
 
         public bool ValidaCampoNull(params string[] param)
         {
-            
+
             foreach (var item in param)
             {
                 
@@ -26,9 +26,15 @@ namespace VsShopper_Infra.Validacoes
         {
             Regex validaEmail = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
             if (!validaEmail.IsMatch(email))
+            {
                 return true;
-            return false;
+            }
+            else
+            {
+                return false;
+            }
         }
+
         public bool ValidaLink(string link)
         {
             string pattern = @"^(http|https|ftp|)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
@@ -39,10 +45,52 @@ namespace VsShopper_Infra.Validacoes
             }
             return false;
         }
-        public bool ValidaNome(string nome)
+        public bool ValidaString(string nome)
         {
             if (!Regex.IsMatch(nome, @"^[ a-zA-Z záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]*$"))
+            {
                 return true;
+            }
+            return false;
+        }
+
+        public string ValidaEspaco(string campo)
+        {
+            campo = campo.Trim(' ');
+            return campo;
+        }
+
+        public bool ValidaUnique(string nome)
+        {
+            if (true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ValidaVazio(string Str)
+        {
+            if (Str != "")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ValidaInt(int valor)
+        {
+            var padrao = valor.ToString();
+            if (!Regex.IsMatch(padrao, @"^[0-9]"))
+            {
+                return true;
+            }
             return false;
         }
     }

@@ -63,7 +63,7 @@ namespace vsSHOPPER1.Controllers
         
         private bool ValidaPerfil(PerfilEntity perfilEntity)
         {
-            if (_baseValida.ValidaNome(perfilEntity.nome) || _baseValida.ValidaCampoNull(perfilEntity.nome))
+            if (_baseValida.ValidaString(perfilEntity.nome) || _baseValida.ValidaCampoNull(perfilEntity.nome))
                 return true; 
             return false;
         }

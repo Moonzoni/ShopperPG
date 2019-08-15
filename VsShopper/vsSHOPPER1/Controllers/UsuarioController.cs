@@ -88,7 +88,7 @@ namespace vsSHOPPER1.Controllers
             
             if (_baseValida.ValidaCampoNull(usuario.nome, usuario.email, usuario.cod_usuario.ToString()) 
                 | _baseValida.ValidaEmail(usuario.email)
-                | _baseValida.ValidaNome(usuario.nome)
+                | _baseValida.ValidaString(usuario.nome)
                 | PerfilExistente == null)//Arrumar o email 
             {
                 cont++;

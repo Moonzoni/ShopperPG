@@ -7,8 +7,12 @@ namespace VsShopper_Infra.Interface
     public interface IBaseValida
     {
         bool ValidaEmail(string email);
-        bool ValidaNome(string nome);
         bool ValidaCampoNull(params string[] param);
         bool ValidaLink(string link);
+        string ValidaEspaco(string campo);
+        bool ValidaVazio(string Str);
+        bool ValidaUnique(string nome);
+        bool ValidaString(string nome);
+        bool ValidaInt(int valor);
     }
 }
