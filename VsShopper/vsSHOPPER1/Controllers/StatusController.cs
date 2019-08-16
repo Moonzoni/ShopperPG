@@ -37,7 +37,8 @@ namespace vsSHOPPER1.Controllers
             if (statusExiste != null)
             {
                 return new OkObjectResult(statusExiste);
-            }else 
+            }
+            else
                 return new BadRequestObjectResult("Nao existe esse ID");
         }
 
@@ -45,41 +46,72 @@ namespace vsSHOPPER1.Controllers
         [HttpPost("/Cadastro_status/")]
         public ActionResult<StatusEntity> Post([FromBody] StatusEntity statusEntity)
         {
-            statusEntity.nome = statusEntity.nome.Trim(' ');
-            if (Validacaostatus(statusEntity))
+            if (!ValidaStatus(statusEntity))
             {
-                return new BadRequestObjectResult("Campo Null");
-            }else
+                statusEntity.nome = statusEntity.nome.Trim(' ');
                 return new OkObjectResult(_statusRepository.Add(statusEntity));
+            }
+            else
+            {
+                return new BadRequestObjectResult("Nome inválido!");
+            }
         }
 
-        private bool Validacaostatus(StatusEntity statusEntity)
-        {
-            //statusEntity.nome = statusEntity.nome.Trim(' ');
-            if (_baseValida.ValidaCampoNull(statusEntity.nome))
-            {
-                return true;
-            }
-            return false;
-        }
         // PUT: api/status/5
         [HttpPut("/Update_status/")]
         public ActionResult<StatusEntity> Put([FromBody] StatusEntity statusEntity)
         {
             try
             {
-                statusEntity.nome = statusEntity.nome.Trim(' ');
-                if (Validacaostatus(statusEntity))
+                
+                if (!ValidaStatus(statusEntity))
                 {
+                    statusEntity.nome = statusEntity.nome.Trim(' ');
                     return new OkObjectResult(_statusRepository.Update(statusEntity));
                 }
                 else
-                    return new BadRequestObjectResult("Erro no Update");
+                {
+                    return new BadRequestObjectResult("Erro no update!");
+                }
             }
             catch (Exception e)
             {
                 return new BadRequestObjectResult(e);
             }
+        }
+
+        private bool ValidaStatus(StatusEntity status)
+        {
+            int cont = 0;
+            if (_baseValida.ValidaCampoNull(status.nome)
+                || _baseValida.ValidaString(status.nome))
+            {
+                //statusEntity.nome = statusEntity.nome.Trim(' ');
+                return true;
+            }
+            if (status.cod_status != 0)
+            {
+                var existe = _statusRepository.GetNoTracking(status.cod_status);
+                if (existe == null)
+                {
+                    cont++;
+                }
+            }
+
+            if (status.nome != null)
+            {
+                var unique = _statusRepository.GetStatusByName(status.nome);
+                if (unique != null)
+                {
+                    cont++;
+                }
+            }
+
+            if (cont > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         // DELETE: api/ApiWithActions/5
@@ -95,11 +127,16 @@ namespace vsSHOPPER1.Controllers
                     _statusRepository.Delete(id);
                 }
                 else
+                {
                     return new BadRequestObjectResult("Nao Pode Excluir Esse status");
+                }
             }
             else
+            {
                 return new BadRequestObjectResult("NAO EXISTE ESSE CODIGO");
-         return new OkResult();
+            }
+
+            return new OkResult();
         }
     }
 }

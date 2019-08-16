@@ -53,25 +53,6 @@ namespace VsShopper_Infra.Validacoes
             }
             return false;
         }
-
-        public string ValidaEspaco(string campo)
-        {
-            campo = campo.Trim(' ');
-            return campo;
-        }
-
-        public bool ValidaUnique(string nome)
-        {
-            if (true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public bool ValidaVazio(string Str)
         {
             if (Str != "")

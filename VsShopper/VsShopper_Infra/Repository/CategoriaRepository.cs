@@ -24,6 +24,12 @@ namespace VsShopper_Infra.Repository
                        .FirstOrDefault(x => x.cod_categoria == id);
         }
 
+        public CategoriaEntity GetCategoriaByName(string name)
+        {
+            return _vsShopperContext.Set<CategoriaEntity>().AsNoTracking<CategoriaEntity>()
+                .FirstOrDefault(x => x.nome.Contains(name));
+        }
+
     }
      
 }

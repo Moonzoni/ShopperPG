@@ -9,9 +9,7 @@ namespace VsShopper_Infra.Interface
         bool ValidaEmail(string email);
         bool ValidaCampoNull(params string[] param);
         bool ValidaLink(string link);
-        string ValidaEspaco(string campo);
         bool ValidaVazio(string Str);
-        bool ValidaUnique(string nome);
         bool ValidaString(string nome);
         bool ValidaInt(int valor);
     }

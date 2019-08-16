@@ -43,7 +43,7 @@ namespace vsSHOPPER1.Controllers
             }
             else
             {
-                return new BadRequestObjectResult("Nao Existe esse ID");
+                return new BadRequestObjectResult("Nao existe esse id!");
             }
         }
 
@@ -52,7 +52,7 @@ namespace vsSHOPPER1.Controllers
         public ActionResult<CategoriaEntity> Post([FromBody] CategoriaEntity categoria)
         {
             if (!ValidaCategoria(categoria))
-            {
+            {                
                 categoria.nome = categoria.nome.Trim(' ');
                 return new OkObjectResult(_categoriaRepositor.Add(categoria));
             }
@@ -80,7 +80,7 @@ namespace vsSHOPPER1.Controllers
                 }
                 else
                 {
-                    return new BadRequestObjectResult("Erro Update");
+                    return new BadRequestObjectResult("Erro no Update");
                 }
             }
             catch (Exception)
@@ -111,6 +111,7 @@ namespace vsSHOPPER1.Controllers
             if (_baseValida.ValidaCampoNull(categoria.nome)
                 || _baseValida.ValidaString(categoria.nome))
             {
+                //categoria.nome = _baseValida.ValidaEspaco(categoria.nome);
                 cont++;
             }
 
@@ -118,6 +119,15 @@ namespace vsSHOPPER1.Controllers
             {
                 var existe = _categoriaRepositor.GetNoTracking(categoria.cod_categoria);
                 if (existe == null)
+                {
+                    cont++;
+                }
+            }
+
+            if (categoria.nome != null)
+            {
+                var unique = _categoriaRepositor.GetCategoriaByName(categoria.nome);
+                if (unique != null)
                 {
                     cont++;
                 }

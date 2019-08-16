@@ -54,8 +54,9 @@ namespace vsSHOPPER1.Controllers
                 });
             }
             else
-                return new BadRequestObjectResult("Nao Existe Esse Id");
-            
+            {
+                return new BadRequestObjectResult("Nao existe este id!");
+            }
         }
 
         // POST: api/usuario
@@ -77,52 +78,11 @@ namespace vsSHOPPER1.Controllers
                 return new OkObjectResult(usuarioDTO);
             }
             else
+            {
                 return new BadRequestObjectResult("Erro no cadastro");
+            }
         }
 
-        private bool Validausuario(usuarioDTO usuario)
-        {
-            int cont = 0;
-            var PerfilExistente = _perfilRepository.GetNoTracking(usuario.perfil.cod_perfil);
-            var ValidaEmailExistente = _usuarioRepository.FindByEmail(usuario.email);
-            
-            if (_baseValida.ValidaCampoNull(usuario.nome, usuario.email, usuario.cod_usuario.ToString()) 
-                | _baseValida.ValidaEmail(usuario.email)
-                | _baseValida.ValidaString(usuario.nome)
-                | PerfilExistente == null)//Arrumar o email 
-            {
-                cont++;
-            }
-
-            if (usuario.cod_usuario == 0)
-            {
-                if (ValidaEmailExistente != null)
-                {
-                    cont++;
-                }
-            }
-
-
-            if (usuario.cod_usuario != 0)
-            {
-                var usuarioExistente = _usuarioRepository.GetNoTracking(usuario.cod_usuario);
-                if (usuarioExistente != null)
-                {
-                    if (ValidaEmailExistente != null && usuario.email != usuarioExistente.email) 
-                    {
-                        cont++;
-                    }
-                }
-                else
-                    cont++;
-               
-            }            
-            if (cont>0)
-            {
-                return true;
-            }
-            return false;
-        }
         // PUT: api/usuario/5
         [HttpPut("Update_usuario")]
         public ActionResult<usuarioDTO> Put([FromBody] usuarioDTO usuarioDTO)
@@ -141,13 +101,58 @@ namespace vsSHOPPER1.Controllers
                     var Updateusuario = _usuarioRepository.Update(usuarioEntity);
                     return new OkObjectResult(usuarioDTO);
                 }
-                else  
-                    return new BadRequestObjectResult("Erro Update");
+                else
+                {
+                    return new BadRequestObjectResult("Erro no update!");
+                }
             }
             catch (Exception)
             {
-                throw;
+                return new BadRequestObjectResult("Erro no update!");
             }
+        }
+        private bool Validausuario(usuarioDTO usuario)
+        {
+            int cont = 0;
+            var PerfilExistente = _perfilRepository.GetNoTracking(usuario.perfil.cod_perfil);
+            var ValidaEmailExistente = _usuarioRepository.FindByEmail(usuario.email);
+
+            if (_baseValida.ValidaCampoNull(usuario.nome, usuario.email, usuario.cod_usuario.ToString())
+                | _baseValida.ValidaEmail(usuario.email)
+                | _baseValida.ValidaString(usuario.nome)
+                | PerfilExistente == null)//Arrumar o email 
+            {
+                cont++;
+            }
+
+            if (usuario.cod_usuario == 0)
+            {
+                if (ValidaEmailExistente != null)
+                {
+                    cont++;
+                }
+            }
+
+            if (usuario.cod_usuario != 0)
+            {
+                var usuarioExistente = _usuarioRepository.GetNoTracking(usuario.cod_usuario);
+                if (usuarioExistente != null)
+                {
+                    if (ValidaEmailExistente != null && usuario.email != usuarioExistente.email)
+                    {
+                        cont++;
+                    }
+                }
+                else
+                {
+                    cont++;
+                }
+            }
+            if (cont > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         // DELETE: api/ApiWithActions/5
@@ -163,10 +168,14 @@ namespace vsSHOPPER1.Controllers
                     _usuarioRepository.Delete(id);
                 }
                 else
-                    return new BadRequestObjectResult("Nao Pode excluir esse usuario");
+                {
+                    return new BadRequestObjectResult("Nao foi possível excluir este usuario!");
+                }
             }
             else
-                return new BadRequestObjectResult("Nao existe esse Codigo");
+            {
+                return new BadRequestObjectResult("Este código não xiste!");
+            }
             return new OkResult();
         }
     }

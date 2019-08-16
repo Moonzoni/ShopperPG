@@ -24,7 +24,7 @@ namespace vsSHOPPER1.Controllers
         private readonly IBaseValida _baseValida;
 
         public ComprasController(IComprasRepository compras, IStatusRepository status,
-                                    IUsuarioRepository usuario, ICategoriaRepository categoria, 
+                                    IUsuarioRepository usuario, ICategoriaRepository categoria,
                                     IOrcamentoRepository orcamento, IBaseValida baseValida)
         {
             _comprasRepository = compras;
@@ -50,7 +50,6 @@ namespace vsSHOPPER1.Controllers
             {
                 return new OkObjectResult(Find(_comprasRepository.FindBystatus(idstatus)));
             }
-
             return new NotFoundResult();
         }
 
@@ -62,7 +61,6 @@ namespace vsSHOPPER1.Controllers
             {
                 return new OkObjectResult(Find(_comprasRepository.FindByCategoria(cod_categoria)));
             }
-            
             return new NotFoundResult();
         }
 
@@ -83,8 +81,9 @@ namespace vsSHOPPER1.Controllers
         {
             var existe = _statusRepository.GetStatusByName("Aprovado");
             if (existe != null)
+            {
                 return Find(_comprasRepository.FindBystatus(existe.cod_status));
-
+            }
             return null;
         }
         [HttpGet("Busca_status_Finalizados")]
@@ -92,7 +91,9 @@ namespace vsSHOPPER1.Controllers
         {
             var existe = _statusRepository.GetStatusByName("Finalizado");
             if (existe != null)
+            {
                 return Find(_comprasRepository.FindBystatus(existe.cod_status));
+            }
             return null;
         }
 
@@ -148,7 +149,6 @@ namespace vsSHOPPER1.Controllers
                     titulo = comprasModel.titulo,
                     descricao = comprasModel.descricao,
                     data_abertura = DateTime.Now
-                    
                 };
                 var NewCompra = _comprasRepository.Add(Compra);
                 comprasModel.Cod_compra = NewCompra.cod_compra;
@@ -160,19 +160,19 @@ namespace vsSHOPPER1.Controllers
                     comprasModel.orcamentodtos[i].cod_orcamento = NewOrcamento.cod_orcamento;
                 }
                 return new OkObjectResult(comprasModel);
-
             }
             else
+            {
                 return new BadRequestObjectResult("Erro no cadastro, campos inválidos.");
-            
+            }
         }
 
         private bool ValidaCompraCadastro(CompraModel compra)
         {
-            int cont = 0;            
+            int cont = 0;
             var categoriaExistente = _categoriaRepository.GetNoTracking(compra.cod_categoria);
             var usuarioExistente = _usuarioRepository.GetNoTracking(compra.cod_usuario);
-            if (_baseValida.ValidaCampoNull(compra.descricao, compra.titulo)|| categoriaExistente == null|| usuarioExistente == null)
+            if (_baseValida.ValidaCampoNull(compra.descricao, compra.titulo) || categoriaExistente == null || usuarioExistente == null)
             {
                 cont++;
             }
@@ -185,7 +185,7 @@ namespace vsSHOPPER1.Controllers
                     cont++;
                 }
             }
-            if(cont>0)
+            if (cont > 0)
             {
                 return true;
             }
@@ -199,15 +199,18 @@ namespace vsSHOPPER1.Controllers
             var NewCompra = _comprasRepository.Get(compraRequest.Cod_compra);
             try
             {
-                if (ValidaCompraUpdate(compraRequest))
+                if (!ValidaCompraUpdate(compraRequest))
                 {
                     NewCompra.titulo = compraRequest.titulo;
                     NewCompra.descricao = compraRequest.descricao;
 
                     var Compra = _comprasRepository.Update(NewCompra);
                     return new OkObjectResult(compraRequest);
-                }else
+                }
+                else
+                {
                     return new BadRequestObjectResult("Erro Update");
+                }
             }
             catch (Exception e)
             {
@@ -249,13 +252,20 @@ namespace vsSHOPPER1.Controllers
                         goto flag;
                     }
                     else
-                        return new BadRequestObjectResult("Permissão inválida");
-                }else
+                    {
+                        return new BadRequestObjectResult("Permissão inválida!");
+                    }
+                }
+                else
+                {
                     return new BadRequestObjectResult("Compra Finalizado, não pode alterar o status!");
+                }
             }
             else
+            {
                 return new BadRequestObjectResult("Não existe");
-            flag:
+            }
+        flag:
             _comprasRepository.Update(Updatestatus(compra, cod_status));
 
             return new OkResult();
@@ -265,10 +275,11 @@ namespace vsSHOPPER1.Controllers
         {
             var CompraEntitity = comprasEntity;
             if (cod_status == 10)
-                comprasEntity.data_finalizada = DateTime.Now;            
-            CompraEntitity.cod_status = cod_status;
+            {
+                comprasEntity.data_finalizada = DateTime.Now;
+                CompraEntitity.cod_status = cod_status;
+            }
             return CompraEntitity;
         }
-       
     }
 }

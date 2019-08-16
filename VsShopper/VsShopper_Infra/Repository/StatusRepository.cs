@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,10 @@ namespace VsShopper_Infra.Repository
             return _vsShopperContext.Set<StatusEntity>().FirstOrDefault(x => x.nome.Contains(name));
         }
 
-
+        public StatusEntity GetNoTracking(int id)
+        {
+            return this._vsShopperContext.Set<StatusEntity>().AsNoTracking<StatusEntity>()
+                       .FirstOrDefault(x => x.cod_status == id);
+        }
     }
 }

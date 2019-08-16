@@ -9,9 +9,7 @@ namespace VsShopper_Infra.Interface
     public interface IStatusRepository: IBaseRepository<StatusEntity>
     {
         bool PodeExcluir(int id);
+        StatusEntity GetNoTracking(int id);
         StatusEntity GetStatusByName(string name);
     }
-    
-    
-
 }
