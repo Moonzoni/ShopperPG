@@ -22,10 +22,16 @@ namespace VsShopper_Infra.Repository
             return _vsShopperContext.Set<StatusEntity>().FirstOrDefault(x => x.nome.Contains(name));
         }
 
+<<<<<<< HEAD
         public StatusEntity GetNoTracking(int id)
         {
             return this._vsShopperContext.Set<StatusEntity>().AsNoTracking<StatusEntity>()
                        .FirstOrDefault(x => x.cod_status == id);
         }
+=======
+      
+
+
+>>>>>>> d11d0c08b9582d64a5d8093ed70b5e2829018876
     }
 }

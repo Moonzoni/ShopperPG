@@ -24,5 +24,11 @@ namespace VsShopper_Infra.Repository
             return !verificastatus;
         }
 
+        public PerfilEntity GetPerfilByName(string name)
+        {
+            return _vsShopperContext.Set<PerfilEntity>().AsNoTracking<PerfilEntity>()
+                .FirstOrDefault(x => x.nome == name);
+        }
+
     }
 }

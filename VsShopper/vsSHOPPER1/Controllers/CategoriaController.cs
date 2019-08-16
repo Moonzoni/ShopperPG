@@ -91,7 +91,7 @@ namespace vsSHOPPER1.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("/Delete_categoria/{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
             var existe = _categoriaRepositor.Get(id);
 
@@ -101,8 +101,11 @@ namespace vsSHOPPER1.Controllers
                 if (podeExcluir)
                 {
                     _categoriaRepositor.Delete(id);
+                    return new OkResult();
                 }
+                
             }
+            return new NotFoundResult();
         }
 
         private bool ValidaCategoria(CategoriaEntity categoria)

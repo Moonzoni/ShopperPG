@@ -27,7 +27,7 @@ namespace VsShopper_Infra.Repository
         public CategoriaEntity GetCategoriaByName(string name)
         {
             return _vsShopperContext.Set<CategoriaEntity>().AsNoTracking<CategoriaEntity>()
-                .FirstOrDefault(x => x.nome.Contains(name));
+                .FirstOrDefault(x => x.nome == name);
         }
 
     }

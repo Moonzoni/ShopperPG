@@ -9,5 +9,6 @@ namespace VsShopper_Infra.Interface
     {
         bool PodeExcluir(int id);
         PerfilEntity GetNoTracking(int id);
+        PerfilEntity GetPerfilByName(string name);
     }
 }

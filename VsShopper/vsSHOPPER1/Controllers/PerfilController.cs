@@ -63,8 +63,25 @@ namespace vsSHOPPER1.Controllers
         
         private bool ValidaPerfil(PerfilEntity perfilEntity)
         {
+            int cont = 0;
             if (_baseValida.ValidaString(perfilEntity.nome) || _baseValida.ValidaCampoNull(perfilEntity.nome))
-                return true; 
+            {
+                cont++;
+            }
+
+            if (perfilEntity.nome != null)
+            {
+                var unique = _perfilRepository.GetPerfilByName(perfilEntity.nome);
+                if (unique != null)
+                {
+                    cont++;
+                }
+            }
+
+            if (cont > 0)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -78,12 +95,15 @@ namespace vsSHOPPER1.Controllers
                 var TesteExiste = _perfilRepository.GetNoTracking(perfilEntity.cod_perfil);
                 if (TesteExiste != null)
                 {
-                    if (ValidaPerfil(perfilEntity))
+                    if (!ValidaPerfil(perfilEntity))
                     {
-                        return new BadRequestObjectResult("Erro Update Perfil");
+
+                        return new OkObjectResult(_perfilRepository.Update(perfilEntity));
+
                     }
                     else
-                      return new OkObjectResult(_perfilRepository.Update(perfilEntity));
+                        return new BadRequestObjectResult("Erro Update Perfil");
+                    
                 }
                 else
                 {
