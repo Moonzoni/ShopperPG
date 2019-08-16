@@ -199,7 +199,7 @@ namespace vsSHOPPER1.Controllers
             var NewCompra = _comprasRepository.Get(compraRequest.Cod_compra);
             try
             {
-                if (ValidaCompraUpdate(compraRequest))
+                if (!ValidaCompraUpdate(compraRequest))
                 {
                     NewCompra.titulo = compraRequest.titulo;
                     NewCompra.descricao = compraRequest.descricao;

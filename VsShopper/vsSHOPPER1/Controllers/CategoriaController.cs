@@ -52,8 +52,7 @@ namespace vsSHOPPER1.Controllers
         public ActionResult<CategoriaEntity> Post([FromBody] CategoriaEntity categoria)
         {
             if (!ValidaCategoria(categoria))
-            {
-                
+            {                
                 categoria.nome = categoria.nome.Trim(' ');
                 return new OkObjectResult(_categoriaRepositor.Add(categoria));
             }
@@ -110,10 +109,9 @@ namespace vsSHOPPER1.Controllers
         {
             int cont = 0;
             if (_baseValida.ValidaCampoNull(categoria.nome)
-                || _baseValida.ValidaString(categoria.nome)
                 || _baseValida.ValidaString(categoria.nome))
             {
-                categoria.nome = _baseValida.ValidaEspaco(categoria.nome);
+                //categoria.nome = _baseValida.ValidaEspaco(categoria.nome);
                 cont++;
             }
 
@@ -125,6 +123,16 @@ namespace vsSHOPPER1.Controllers
                     cont++;
                 }
             }
+
+            if (categoria.nome != null)
+            {
+                var unique = _categoriaRepositor.GetCategoriaByName(categoria.nome);
+                if (unique != null)
+                {
+                    cont++;
+                }
+            }
+                
 
             if (cont > 0)
             {

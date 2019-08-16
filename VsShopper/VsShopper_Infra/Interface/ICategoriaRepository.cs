@@ -10,6 +10,7 @@ namespace VsShopper_Infra.Interface
         bool PodeExcluir(int id);
 
         CategoriaEntity GetNoTracking(int id);
+        CategoriaEntity GetCategoriaByName(string name);
 
     }
 }
