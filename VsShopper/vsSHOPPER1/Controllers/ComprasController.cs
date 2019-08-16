@@ -16,17 +16,27 @@ namespace vsSHOPPER1.Controllers
     [ApiController]
     public class ComprasController : ControllerBase
     {
-        private readonly IComprasRepository _comprasRepository;
-        private readonly IStatusRepository _statusRepository;
-        private readonly IUsuarioRepository _usuarioRepository;
+        
+        
+        
+        
+        
         private readonly ICategoriaRepository _categoriaRepository;
-        private readonly IOrcamentoRepository _orcamentoRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IPerfilRepository _perfilRepository;
         private readonly IBaseValida _baseValida;
+        private readonly IStatusRepository _statusRepository;
+        private readonly IComprasRepository _comprasRepository;
+        private readonly IOrcamentoRepository _orcamentoRepository;
+        
+        
 
         public ComprasController(IComprasRepository compras, IStatusRepository status,
                                     IUsuarioRepository usuario, ICategoriaRepository categoria, 
-                                    IOrcamentoRepository orcamento, IBaseValida baseValida)
+                                    IOrcamentoRepository orcamento, IBaseValida baseValida,
+                                    IPerfilRepository perfil)
         {
+            _perfilRepository = perfil;
             _comprasRepository = compras;
             _statusRepository = status;
             _usuarioRepository = usuario;
@@ -115,21 +125,29 @@ namespace vsSHOPPER1.Controllers
 
         // GET: api/Compras/5
         [HttpGet("Busca_Compras/{id}")]
-        public ComprasDTO Get(int id)
+        public ActionResult<ComprasDTO> Get(int id)
         {
             var compras = _comprasRepository.Get(id);
-            return new ComprasDTO()
+            if (compras != null)
             {
-                status = _statusRepository.Get(compras.cod_status),
-                usuario = _usuarioRepository.Get(compras.cod_usuario),
-                categoria = _categoriaRepository.Get(compras.cod_categoria),
-                cod_compra = compras.cod_compra,
-                descricao = compras.descricao,
-                titulo = compras.titulo,
-                data_abertura = compras.data_abertura,
-                data_finalizada = compras.data_finalizada,
-                orcamentodtos = _orcamentoRepository.FindByCompra(compras.cod_compra).ToList()
-            };
+                ComprasDTO comprasDTO =  new ComprasDTO()
+                {
+                    status = _statusRepository.Get(compras.cod_status),
+                    usuario = _usuarioRepository.Get(compras.cod_usuario),
+                    categoria = _categoriaRepository.Get(compras.cod_categoria),
+                    cod_compra = compras.cod_compra,
+                    descricao = compras.descricao,
+                    titulo = compras.titulo,
+                    data_abertura = compras.data_abertura,
+                    data_finalizada = compras.data_finalizada,
+                    orcamentodtos = _orcamentoRepository.FindByCompra(compras.cod_compra).ToList()
+                };
+                return new OkObjectResult(comprasDTO);
+            }
+            else
+            {
+                return new NotFoundObjectResult(null);
+            }
         }
 
         // POST: api/Compras
@@ -176,6 +194,8 @@ namespace vsSHOPPER1.Controllers
             {
                 cont++;
             }
+
+
 
             for (int i = 0; i < compra.orcamentodtos.Count; i++)
             {
@@ -229,22 +249,25 @@ namespace vsSHOPPER1.Controllers
         [HttpPut("Troca_status/")]
         public ActionResult Mudastatus(int cod_usuario, int cod_compra, int cod_status)
         {
-            var usuario = _usuarioRepository.Get(cod_usuario);
             var compra = _comprasRepository.Get(cod_compra);
-            var status = _statusRepository.Get(cod_status);
-            if (status != null & usuario != null & compra != null)
+            var statusAtual = _statusRepository.Get(compra.cod_status);
+            var user = _usuarioRepository.Get(cod_usuario);
+            var perfil = _perfilRepository.Get(user.cod_perfil);
+            var statusNovo = _statusRepository.Get(cod_status);
+            
+            if (compra != null & user != null & statusNovo != null)
             {
-                if (compra.cod_status != 10)
+                if (statusAtual.nome != "Finalizado")
                 {
-                    if (cod_status == 2 && usuario.cod_perfil == 1 || usuario.cod_perfil == 2)
+                    if (statusNovo.nome == "Aprovado" && (perfil.nome == "Admin" || perfil.nome == "Gerente"))
                     {
                         goto flag;
                     }
-                    else if (cod_status == 10 && (usuario.cod_perfil == 1 || usuario.cod_perfil == 2 || usuario.cod_perfil == 3))
+                    else if (statusNovo.nome == "Finalizado" && (perfil.nome == "Admin" || perfil.nome == "Gerente" || perfil.nome == "Analista de Compras"))
                     {
                         goto flag;
                     }
-                    else if ((cod_status != 2 && cod_status != 10) && (usuario.cod_perfil != 1 & usuario.cod_perfil != 2 & usuario.cod_perfil != 3))
+                    else if ((statusNovo.nome != "Finalizado" && statusNovo.nome != "Aprovado") && (perfil.nome != "Admin" & perfil.nome != "Gerente" & perfil.nome != "Analista de Compras"))
                     {
                         goto flag;
                     }

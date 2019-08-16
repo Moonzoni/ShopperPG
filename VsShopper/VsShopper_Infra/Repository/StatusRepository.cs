@@ -21,6 +21,8 @@ namespace VsShopper_Infra.Repository
             return _vsShopperContext.Set<StatusEntity>().FirstOrDefault(x => x.nome.Contains(name));
         }
 
+      
+
 
     }
 }
