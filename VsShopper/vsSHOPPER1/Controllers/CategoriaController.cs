@@ -53,13 +53,12 @@ namespace vsSHOPPER1.Controllers
         {
             if (!ValidaCategoria(categoria))
             {
-                
                 categoria.nome = categoria.nome.Trim(' ');
                 return new OkObjectResult(_categoriaRepositor.Add(categoria));
             }
             else
             {
-                return new BadRequestObjectResult("Erro");
+                return new BadRequestObjectResult("Nome inválido!");
             }
         }
 
@@ -110,10 +109,8 @@ namespace vsSHOPPER1.Controllers
         {
             int cont = 0;
             if (_baseValida.ValidaCampoNull(categoria.nome)
-                || _baseValida.ValidaString(categoria.nome)
                 || _baseValida.ValidaString(categoria.nome))
             {
-                categoria.nome = _baseValida.ValidaEspaco(categoria.nome);
                 cont++;
             }
 
