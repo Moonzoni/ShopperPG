@@ -214,8 +214,8 @@ namespace vsSHOPPER1.Controllers
             {
                 if (!ValidaCompraUpdate(compraRequest))
                 {
-                    NewCompra.titulo = compraRequest.titulo;
-                    NewCompra.descricao = compraRequest.descricao;
+                    NewCompra.titulo = compraRequest.titulo.Trim(' ');
+                    NewCompra.descricao = compraRequest.descricao.Trim(' ');
 
                     var Compra = _comprasRepository.Update(NewCompra);
                     return new OkObjectResult(compraRequest);

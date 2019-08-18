@@ -73,10 +73,10 @@ namespace vsSHOPPER1.Controllers
                     var categoriaEntity = new CategoriaEntity()
                     {
                         cod_categoria = categoria.cod_categoria,
-                        nome = categoria.nome
+                        nome = categoria.nome.Trim(' ')
                     };
                     var Updatecategoria = _categoriaRepositor.Update(categoriaEntity);
-                    return new OkObjectResult(categoria);
+                    return new OkObjectResult(categoriaEntity);
                 }
                 else
                 {

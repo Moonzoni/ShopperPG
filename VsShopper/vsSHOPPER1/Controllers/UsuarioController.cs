@@ -95,8 +95,8 @@ namespace vsSHOPPER1.Controllers
                     {
                         cod_usuario = usuarioDTO.cod_usuario,
                         cod_perfil = usuarioDTO.perfil.cod_perfil,
-                        email = usuarioDTO.email,
-                        nome = usuarioDTO.nome
+                        email = usuarioDTO.email.Trim(' '),
+                        nome = usuarioDTO.nome.Trim(' ')
                     };
                     var Updateusuario = _usuarioRepository.Update(usuarioEntity);
                     return new OkObjectResult(usuarioDTO);
@@ -120,7 +120,7 @@ namespace vsSHOPPER1.Controllers
             if (_baseValida.ValidaCampoNull(usuario.nome, usuario.email, usuario.cod_usuario.ToString())
                 | _baseValida.ValidaEmail(usuario.email)
                 | _baseValida.ValidaString(usuario.nome)
-                | PerfilExistente == null)//Arrumar o email 
+                | PerfilExistente == null)//Arrumar o email
             {
                 cont++;
             }
